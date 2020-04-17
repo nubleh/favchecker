@@ -270,13 +270,6 @@ const FlowerImg = styled.img`
   width: 100%;
 `;
 
-const FieldEl = styled.div`
-  margin: 0 auto;
-  border-radius: 8px;
-  overflow: hidden;
-  user-select: none;
-`;
-
 const slamIn = keyframes`
   0% {
     opacity: 0;
@@ -318,7 +311,9 @@ const Cell = styled.div`
   background-size: 100% 100%;
   vertical-align: top;
   cursor: pointer;
-  transition: transform 0.1s;
+  transition: transform 0.1s, background-size 0.1s;
+  background-position: center center;
+  background-repeat: no-repeat;
 
   &:hover {
     opacity: 0.95;
@@ -326,6 +321,19 @@ const Cell = styled.div`
 
   ${FlowerImg} {
     animation: ${bounceIn} 0.1s 1;
+  }
+`;
+
+const FieldEl = styled.div`
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  user-select: none;
+
+  &:hover {
+    ${Cell} {
+      background-size: 99% 99%;
+    }
   }
 `;
 
