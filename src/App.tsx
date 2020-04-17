@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { FlowerNames, Genes } from './data/genes';
+import { FlowerNames, Genes, SeedGenes } from './data/genes';
+import { FlowerIconPaths } from './data/flowericonpaths';
 
 interface Field {
   [key: number]: {
@@ -21,7 +22,7 @@ function App() {
   const [fieldHeight, setFieldHeight] = useState(10);
 
   const [flowerSpecies, setFlowerSpecies] = useState(FlowerNames.rose);
-  const [flowerGenes, setFlowerGenes] = useState('00 00 00 00');
+  const [flowerGenes, setFlowerGenes] = useState('11 112 11 00');
   const [field, setField] = useState({} as Field);
   const rows = [];
   for (let x = 0; x < fieldHeight; x++) {
@@ -31,6 +32,14 @@ function App() {
     }
     rows.push(row);
   }
+
+  const flowerOptions = Object.keys(SeedGenes).map(k => Number(k) as FlowerNames);
+  const colorOptions: { [key: string]: string } = Object.entries(Genes[flowerSpecies]).reduce((c, n) => {
+    if (!c[n[1]]) {
+      c[n[1]] = n[0];
+    }
+    return c;
+  }, {} as { [key: string]: string });
 
   const onClickCell = (rowIndex: number, colIndex: number) => {
     return () => {
@@ -49,18 +58,59 @@ function App() {
       setField(newField);
     };
   };
-  return <div>
-    <div>
-      tools
-    </div>
+
+  const currentColor = resolveFlowerColor({
+    species: flowerSpecies,
+    genes: flowerGenes,
+  });
+  return <MainContainer>
+    <Tools>
+      <FlowerSpeciesChoice>
+        {flowerOptions.map(f => {
+          return <FlowerSpeciesOption
+            key={f}
+            onClick={() => {
+              setFlowerSpecies(f);
+            }}
+            active={f === flowerSpecies}
+          >
+            <FlowerIcon
+              flower={{
+                species: f,
+                genes: '',
+              }}
+            />
+          </FlowerSpeciesOption>;
+        })}
+      </FlowerSpeciesChoice>
+      <FlowerColorChoice>
+        {Object.entries(colorOptions).map(colorItem => {
+          return <FlowerSpeciesOption
+            key={colorItem[0]}
+            onClick={() => {
+              setFlowerGenes(colorItem[1]);
+            }}
+            active={colorItem[0] === currentColor}
+          >
+            <FlowerIcon
+              flower={{
+                species: flowerSpecies,
+                genes: colorItem[1],
+              }}
+            />
+          </FlowerSpeciesOption>;
+        })}
+      </FlowerColorChoice>
+    </Tools>
     <FieldEl style={{
       width: `${cellSize * fieldWidth}px`
     }}>
       {rows.map((row, rowIndex) => {
-        return <Row>
-          {row.map((col, colIndex) => {
+        return <Row key={rowIndex}>
+          {row.map((_, colIndex) => {
             const content = field[rowIndex]?.[colIndex];
             return <Cell
+              key={colIndex}
               onClick={onClickCell(rowIndex, colIndex)}
             >
               {content && <FlowerIcon
@@ -71,14 +121,8 @@ function App() {
         </Row>;
       })}
     </FieldEl>
-  </div>;
+  </MainContainer>;
 }
-
-const FlowerIconPaths: { [key: number]: { [key: string]: string }} = {
-  [FlowerNames.rose]: {
-    white: 'img/Rose1.png',
-  },
-};
 
 interface FlowerIconProps {
   flower: Flower
@@ -94,12 +138,55 @@ const FlowerIcon = (props: FlowerIconProps) => {
 const getFlowerPath = (flower: Flower) => {
   const set = FlowerIconPaths[flower.species];
   const color = resolveFlowerColor(flower);
-  return set[color];
+  return set[color] || Object.values(set)[0];
 };
 
 const resolveFlowerColor = (flower: Flower) => {
-  return 'white';
+  const geneSet = Genes[flower.species];
+  const gene =  flower.species === FlowerNames.rose ? flower.genes : flower.genes.slice(-8);
+  return geneSet[gene];
 };
+
+const MainContainer = styled.div`
+  margin: 60px 0;
+`;
+
+interface FlowerSpeciesOptionProps {
+  active?: boolean
+}
+const FlowerSpeciesOption = styled.div<FlowerSpeciesOptionProps>`
+  cursor: pointer;
+  transition: transform 0.1s;
+  border-radius: 4px;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+  ${({ active }) => active && css`
+    background: rgba(255, 255, 255, 0.3);
+  `}
+`;
+
+const FlowerSpeciesChoice = styled.div`
+  margin-bottom: 12px;
+  > div {
+    display: inline-block;
+    width: 60px;
+  }
+`;
+
+const FlowerColorChoice = styled.div`
+  margin-bottom: 12px;
+  > div {
+    display: inline-block;
+    width: 30px;
+  }
+`;
+
+const Tools = styled.div`
+  text-align: center;
+  user-select: none;
+`;
 
 const FlowerImg = styled.img`
   width: 100%;
@@ -107,6 +194,9 @@ const FlowerImg = styled.img`
 
 const FieldEl = styled.div`
   margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  user-select: none;
 `;
 
 const Cell = styled.div`
