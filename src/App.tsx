@@ -9,6 +9,11 @@ interface Field {
     [key: number]: Flower | undefined
   }
 }
+interface BlockField {
+  [key: number]: {
+    [key: number]: boolean
+  }
+}
 
 interface Flower {
   species: FlowerNames
@@ -21,9 +26,11 @@ function App() {
   const [fieldWidth, setFieldWidth] = useState(10);
   const [fieldHeight, setFieldHeight] = useState(10);
 
+  const [isBlocking, setIsBlocking] = useState(false);
   const [flowerSpecies, setFlowerSpecies] = useState(FlowerNames.rose);
   const [flowerGenes, setFlowerGenes] = useState('11 112 11 00');
   const [field, setField] = useState({} as Field);
+  const [blockField, setBlockField] = useState({} as BlockField);
   const rows = [];
   for (let x = 0; x < fieldHeight; x++) {
     const row = [];
@@ -43,19 +50,32 @@ function App() {
 
   const onClickCell = (rowIndex: number, colIndex: number) => {
     return () => {
-      const newField = {...field};
-      if (!newField[rowIndex]) {
-        newField[rowIndex] = {};
-      }
-      if (!newField[rowIndex][colIndex]) {
-        newField[rowIndex][colIndex] = {
-          species: flowerSpecies,
-          genes: flowerGenes,
-        };
+      if (isBlocking) {
+        const newBlockField = {...blockField};
+        if (!newBlockField[rowIndex]) {
+          newBlockField[rowIndex] = {};
+        }
+        if (!newBlockField[rowIndex][colIndex]) {
+          newBlockField[rowIndex][colIndex] = true;
+        } else {
+          delete newBlockField[rowIndex][colIndex];
+        }
+        setBlockField(newBlockField);
       } else {
-        newField[rowIndex][colIndex] = undefined;
+        const newField = {...field};
+        if (!newField[rowIndex]) {
+          newField[rowIndex] = {};
+        }
+        if (!newField[rowIndex][colIndex]) {
+          newField[rowIndex][colIndex] = {
+            species: flowerSpecies,
+            genes: flowerGenes,
+          };
+        } else {
+          newField[rowIndex][colIndex] = undefined;
+        }
+        setField(newField);
       }
-      setField(newField);
     };
   };
 
@@ -109,18 +129,41 @@ function App() {
         return <Row key={rowIndex}>
           {row.map((_, colIndex) => {
             const content = field[rowIndex]?.[colIndex];
+            const isBlocked = blockField[rowIndex]?.[colIndex];
             return <Cell
               key={colIndex}
               onClick={onClickCell(rowIndex, colIndex)}
             >
-              {content && <FlowerIcon
+              {!isBlocked && content && <FlowerIcon
                 flower={content}
+              />}
+              {isBlocked && <BlockImage
+                src={'img/RoadTexC^_A.png'}
               />}
             </Cell>;
           })}
         </Row>;
       })}
     </FieldEl>
+    <Tools>
+      <img
+        style={{
+          width: 48,
+          background: isBlocking ? 'rgba(255, 255, 255, 0.5)' : '',
+        }}
+        src={'img/Icon_GeneralCloth_00^t.png'}
+        onClick={() => {
+          setIsBlocking(!isBlocking);
+        }}
+      />
+      <img
+        style={{ width: 48 }}
+        src={'img/ProfileReplaceIcon^t.png'}
+        onClick={() => {
+          setField({});
+        }}
+      />
+    </Tools>
   </MainContainer>;
 }
 
@@ -186,6 +229,20 @@ const FlowerColorChoice = styled.div`
 const Tools = styled.div`
   text-align: center;
   user-select: none;
+  margin: 12px 0;
+
+  > img {
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: translateY(1px) scale(1.1);
+    }
+  }
 `;
 
 const FlowerImg = styled.img`
@@ -199,11 +256,21 @@ const FieldEl = styled.div`
   user-select: none;
 `;
 
+const BlockImage = styled.img`
+  width: 100%;
+  height: 100%;
+  border: solid 6px transparent;
+  box-sizing: border-box;
+  border-radius: 12px;
+`;
+
 const Cell = styled.div`
   display: inline-block;
   width: ${cellSize}px;
   height: ${cellSize}px;
-  background: url('img/AnimalPatternColor^_D.png');
+  background: 
+    linear-gradient(to left, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    url('img/AnimalPatternColor^_D.png');
   background-size: 100% 100%;
   vertical-align: top;
   cursor: pointer;
