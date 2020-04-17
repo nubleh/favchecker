@@ -1,5 +1,6 @@
 {
   "name": "acflowerplanner",
+  "homepage": "https://nubleh.github.io/flowerplanner",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
