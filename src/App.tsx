@@ -85,12 +85,51 @@ function App() {
   });
   return <MainContainer>
     <Tools>
+      <img
+        alt={'Set blockers'}
+        title={'Set blockers'}
+        style={{
+          width: 48,
+          background: isBlocking ? 'rgba(255, 255, 255, 0.5)' : '',
+        }}
+        src={'img/Icon_GeneralCloth_00^t.png'}
+        onClick={() => {
+          setIsBlocking(!isBlocking);
+        }}
+      />
+      <img
+        alt={'Clear field'}
+        title={'Clear field'}
+        style={{ width: 48 }}
+        src={'img/ProfileReplaceIcon^t.png'}
+        onClick={() => {
+          setField({});
+          setBlockField({});
+        }}
+      />
+      <MinusPlusButton
+        title={'Shrink field'}
+        onClick={() => {
+          setFieldWidth(Math.max(3, fieldWidth - 1));
+          setFieldHeight(Math.max(3, fieldHeight - 1));
+        }}
+      />
+      <PlusButton
+        title={'Enlarge field'}
+        onClick={() => {
+          setFieldWidth(Math.min(99, fieldWidth + 1));
+          setFieldHeight(Math.min(99, fieldHeight + 1));
+        }}
+      />
+    </Tools>
+    <Tools>
       <FlowerSpeciesChoice>
         {flowerOptions.map(f => {
           return <FlowerSpeciesOption
             key={f}
             onClick={() => {
               setFlowerSpecies(f);
+              setIsBlocking(false);
             }}
             active={f === flowerSpecies}
           >
@@ -109,6 +148,7 @@ function App() {
             key={colorItem[0]}
             onClick={() => {
               setFlowerGenes(colorItem[1]);
+              setIsBlocking(false);
             }}
             active={colorItem[0] === currentColor}
           >
@@ -145,25 +185,6 @@ function App() {
         </Row>;
       })}
     </FieldEl>
-    <Tools>
-      <img
-        style={{
-          width: 48,
-          background: isBlocking ? 'rgba(255, 255, 255, 0.5)' : '',
-        }}
-        src={'img/Icon_GeneralCloth_00^t.png'}
-        onClick={() => {
-          setIsBlocking(!isBlocking);
-        }}
-      />
-      <img
-        style={{ width: 48 }}
-        src={'img/ProfileReplaceIcon^t.png'}
-        onClick={() => {
-          setField({});
-        }}
-      />
-    </Tools>
   </MainContainer>;
 }
 
@@ -191,7 +212,7 @@ const resolveFlowerColor = (flower: Flower) => {
 };
 
 const MainContainer = styled.div`
-  margin: 60px 0;
+  margin: 8px 0;
 `;
 
 interface FlowerSpeciesOptionProps {
@@ -269,7 +290,7 @@ const Cell = styled.div`
   width: ${cellSize}px;
   height: ${cellSize}px;
   background: 
-    linear-gradient(to left, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    linear-gradient(to left, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)),
     url('img/AnimalPatternColor^_D.png');
   background-size: 100% 100%;
   vertical-align: top;
@@ -284,6 +305,44 @@ const Cell = styled.div`
 const Row = styled.div`
   display: block;
   height: ${cellSize}px;
+`;
+
+const MinusPlusButton = styled.div`
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 4px;
+  position: relative;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: translateY(1px) scale(1.1);
+  }
+
+  &::before, &::after {
+    display: block;
+    position: absolute;
+    width: 24px;
+    height: 8px;
+    background: #fff;
+    top: 50%;
+    left: 50%;
+  }
+  &::before {
+    content: '';
+    transform: translateX(-50%) translateY(-50%);
+  }
+`;
+
+const PlusButton = styled(MinusPlusButton)`
+  &::after {
+    content: '';
+    transform: translateX(-50%) translateY(-50%) rotateZ(90deg);
+  }
 `;
 
 export default App;
