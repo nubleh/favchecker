@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 import { FlowerNames, Genes, SeedGenes } from './data/genes';
 import { FlowerIconPaths } from './data/flowericonpaths';
@@ -277,14 +277,37 @@ const FieldEl = styled.div`
   user-select: none;
 `;
 
+const slamIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: scale(10);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
 const BlockImage = styled.img`
   width: 100%;
   height: 100%;
   border: solid 6px transparent;
   box-sizing: border-box;
   border-radius: 12px;
+  animation: ${slamIn} 0.1s 1 linear;
 `;
 
+const bounceIn = keyframes`
+  0% {
+    transform: scale(0);
+  }
+
+  80% {
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
 const Cell = styled.div`
   display: inline-block;
   width: ${cellSize}px;
@@ -299,6 +322,10 @@ const Cell = styled.div`
 
   &:hover {
     opacity: 0.95;
+  }
+
+  ${FlowerImg} {
+    animation: ${bounceIn} 0.1s 1;
   }
 `;
 
