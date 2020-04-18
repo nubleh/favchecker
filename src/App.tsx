@@ -329,10 +329,13 @@ const FieldEl = styled.div`
   border-radius: 8px;
   overflow: hidden;
   user-select: none;
+  background: url('img/AnimalPatternColor^_D.png');
+  background-size: ${cellSize}px ${cellSize}px;
 
   &:hover {
+    background: none;
     ${Cell} {
-      background-size: 95% 95%;
+      background-size: 99% 99%;
     }
   }
 `;
