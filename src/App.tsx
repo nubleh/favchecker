@@ -332,7 +332,7 @@ const FieldEl = styled.div`
 
   &:hover {
     ${Cell} {
-      background-size: 99% 99%;
+      background-size: 95% 95%;
     }
   }
 `;
