@@ -4,6 +4,13 @@ import styled, { css, keyframes } from 'styled-components';
 import { FlowerNames, Genes, SeedGenes } from './data/genes';
 import { FlowerIconPaths } from './data/flowericonpaths';
 
+import SuzuranImage from './img/Suzuran.png';
+import SuzuranWhiteImage from './img/Suzuran_w.png';
+import ClothIcon from './img/Icon_GeneralCloth_00^t.png';
+import TrashIcon from './img/ProfileReplaceIcon^t.png';
+import RoadTexture from './img/RoadTexC^_A.png';
+import GrassTexture from './img/AnimalPatternColor^_D.png';
+
 interface Field {
   [key: number]: {
     [key: number]: Flower | undefined
@@ -96,7 +103,7 @@ function App() {
           width: 48,
           background: isBlocking === Blockers.LILYOFTHEVALLEY ? 'rgba(255, 255, 255, 0.5)' : '',
         }}
-        src={'img/Suzuran_w.png'}
+        src={SuzuranWhiteImage}
         onClick={() => {
           setIsBlocking(isBlocking === Blockers.LILYOFTHEVALLEY ? undefined : Blockers.LILYOFTHEVALLEY);
         }}
@@ -108,7 +115,7 @@ function App() {
           width: 48,
           background: isBlocking === Blockers.PAVEMENT ? 'rgba(255, 255, 255, 0.5)' : '',
         }}
-        src={'img/Icon_GeneralCloth_00^t.png'}
+        src={ClothIcon}
         onClick={() => {
           setIsBlocking(isBlocking === Blockers.PAVEMENT ? undefined : Blockers.PAVEMENT);
         }}
@@ -117,7 +124,7 @@ function App() {
         alt={'Clear field'}
         title={'Clear field'}
         style={{ width: 48 }}
-        src={'img/ProfileReplaceIcon^t.png'}
+        src={TrashIcon}
         onClick={() => {
           setField({});
           setBlockField({});
@@ -194,10 +201,10 @@ function App() {
                 flower={content}
               />}
               {blockerType === Blockers.PAVEMENT && <BlockImage
-                src={'img/RoadTexC^_A.png'}
+                src={RoadTexture}
               />}
               {blockerType === Blockers.LILYOFTHEVALLEY && <BlockImage
-                src={'img/Suzuran.png'}
+                src={SuzuranImage}
               />}
             </Cell>;
           })}
@@ -326,7 +333,7 @@ const Cell = styled.div`
   height: ${cellSize}px;
   background: 
     linear-gradient(to left, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)),
-    url('img/AnimalPatternColor^_D.png');
+    url('${GrassTexture}');
   background-size: 100% 100%;
   vertical-align: top;
   cursor: pointer;
@@ -348,7 +355,7 @@ const FieldEl = styled.div`
   border-radius: 8px;
   overflow: hidden;
   user-select: none;
-  background: url('img/AnimalPatternColor^_D.png');
+  background: url('${GrassTexture}');
   background-size: ${cellSize}px ${cellSize}px;
 
   &:hover {
