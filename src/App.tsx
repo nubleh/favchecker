@@ -59,7 +59,7 @@ function App() {
         if (!newBlockField[rowIndex]) {
           newBlockField[rowIndex] = {};
         }
-        if (!newBlockField[rowIndex][colIndex]) {
+        if (newBlockField[rowIndex][colIndex] !== isBlocking) {
           newBlockField[rowIndex][colIndex] = isBlocking;
         } else {
           delete newBlockField[rowIndex][colIndex];
