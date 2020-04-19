@@ -168,7 +168,7 @@ function App() {
       <FlowerColorChoice>
         {Object.entries(colorOptions).map(colorItem => {
           return <FlowerSpeciesOption
-            key={colorItem[0]}
+            key={`${flowerSpecies}${colorItem[0]}`}
             onClick={() => {
               setFlowerGenes(colorItem[1]);
               setIsBlocking(undefined);
