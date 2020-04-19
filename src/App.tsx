@@ -11,10 +11,14 @@ interface Field {
 }
 interface BlockField {
   [key: number]: {
-    [key: number]: boolean
+    [key: number]: Blockers
   }
 }
 
+enum Blockers {
+  PAVEMENT,
+  LILYOFTHEVALLEY,
+}
 interface Flower {
   species: FlowerNames
   genes: string
@@ -26,7 +30,7 @@ function App() {
   const [fieldWidth, setFieldWidth] = useState(10);
   const [fieldHeight, setFieldHeight] = useState(10);
 
-  const [isBlocking, setIsBlocking] = useState(false);
+  const [isBlocking, setIsBlocking] = useState(undefined as Blockers | undefined);
   const [flowerSpecies, setFlowerSpecies] = useState(FlowerNames.rose);
   const [flowerGenes, setFlowerGenes] = useState('11 112 11 00');
   const [field, setField] = useState({} as Field);
@@ -50,13 +54,13 @@ function App() {
 
   const onClickCell = (rowIndex: number, colIndex: number) => {
     return () => {
-      if (isBlocking) {
+      if (isBlocking !== undefined) {
         const newBlockField = {...blockField};
         if (!newBlockField[rowIndex]) {
           newBlockField[rowIndex] = {};
         }
         if (!newBlockField[rowIndex][colIndex]) {
-          newBlockField[rowIndex][colIndex] = true;
+          newBlockField[rowIndex][colIndex] = isBlocking;
         } else {
           delete newBlockField[rowIndex][colIndex];
         }
@@ -86,15 +90,27 @@ function App() {
   return <MainContainer>
     <Tools>
       <img
-        alt={'Set blockers'}
-        title={'Set blockers'}
+        alt={'Set lily of the valley'}
+        title={'Set lily of the valley'}
         style={{
           width: 48,
-          background: isBlocking ? 'rgba(255, 255, 255, 0.5)' : '',
+          background: isBlocking === Blockers.LILYOFTHEVALLEY ? 'rgba(255, 255, 255, 0.5)' : '',
+        }}
+        src={'img/Suzuran_w.png'}
+        onClick={() => {
+          setIsBlocking(isBlocking === Blockers.LILYOFTHEVALLEY ? undefined : Blockers.LILYOFTHEVALLEY);
+        }}
+      />
+      <img
+        alt={'Set pavement'}
+        title={'Set pavement'}
+        style={{
+          width: 48,
+          background: isBlocking === Blockers.PAVEMENT ? 'rgba(255, 255, 255, 0.5)' : '',
         }}
         src={'img/Icon_GeneralCloth_00^t.png'}
         onClick={() => {
-          setIsBlocking(!isBlocking);
+          setIsBlocking(isBlocking === Blockers.PAVEMENT ? undefined : Blockers.PAVEMENT);
         }}
       />
       <img
@@ -129,7 +145,7 @@ function App() {
             key={f}
             onClick={() => {
               setFlowerSpecies(f);
-              setIsBlocking(false);
+              setIsBlocking(undefined);
             }}
             active={f === flowerSpecies}
           >
@@ -148,7 +164,7 @@ function App() {
             key={colorItem[0]}
             onClick={() => {
               setFlowerGenes(colorItem[1]);
-              setIsBlocking(false);
+              setIsBlocking(undefined);
             }}
             active={colorItem[0] === currentColor}
           >
@@ -169,16 +185,19 @@ function App() {
         return <Row key={rowIndex}>
           {row.map((_, colIndex) => {
             const content = field[rowIndex]?.[colIndex];
-            const isBlocked = blockField[rowIndex]?.[colIndex];
+            const blockerType = blockField[rowIndex]?.[colIndex];
             return <Cell
               key={colIndex}
               onClick={onClickCell(rowIndex, colIndex)}
             >
-              {!isBlocked && content && <FlowerIcon
+              {!blockerType && content && <FlowerIcon
                 flower={content}
               />}
-              {isBlocked && <BlockImage
+              {blockerType === Blockers.PAVEMENT && <BlockImage
                 src={'img/RoadTexC^_A.png'}
+              />}
+              {blockerType === Blockers.LILYOFTHEVALLEY && <BlockImage
+                src={'img/Suzuran.png'}
               />}
             </Cell>;
           })}
