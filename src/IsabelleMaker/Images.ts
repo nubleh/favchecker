@@ -53,8 +53,10 @@ import Image046 from './img/046.png';
 import Image050 from './img/050.png';
 import Image054 from './img/054.png';
 import Image058 from './img/058.png';
+import ImageNight from './img/blank_night_template.jpg';
 
 export const images = [
+  ImageNight,
   Image007,
   Image011,
   Image015,
