@@ -371,7 +371,7 @@ const Row = styled.div`
   height: ${cellSize}px;
 `;
 
-const MinusPlusButton = styled.div`
+export const MinusPlusButton = styled.div`
   width: 48px;
   height: 48px;
   display: inline-block;
@@ -402,7 +402,7 @@ const MinusPlusButton = styled.div`
   }
 `;
 
-const PlusButton = styled(MinusPlusButton)`
+export const PlusButton = styled(MinusPlusButton)`
   &::after {
     content: '';
     transform: translateX(-50%) translateY(-50%) rotateZ(90deg);
