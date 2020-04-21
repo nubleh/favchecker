@@ -23,6 +23,7 @@ const months = [
   'December',
 ];
 const IsabelleMaker = () => {
+  const [loadFlip, setLoadFlip] = useState(false);
   const [imagePath, setImagePath] = useState(images[3]);
   const cvRef = useRef(null as null | HTMLCanvasElement);
   const today = new Date();
@@ -89,22 +90,24 @@ const IsabelleMaker = () => {
     draw();
   };
   const updateText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLoadFlip(!loadFlip);
     setText(e.currentTarget?.value);
     draw();
   };
   const updateFontSize = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFontSize = parseInt(e.currentTarget?.value, 10);
     if (isFinite(newFontSize) && newFontSize > 0) {
+      setLoadFlip(!loadFlip);
       setFontSize(newFontSize);
+      draw();
     }
-    draw();
   };
 
   return <MainContainer>
     <canvas ref={cvRef} width={width} height={height}/>
     <Thumbs>
       {images.map(img => {
-        const src = img === imagePath ? `${img}?${Math.random()}` : img;
+        const src = img === imagePath ? `${img}?${loadFlip ? '0' : '1'}` : img;
         return <ThumbImage
           src={src}
           key={img}
@@ -121,9 +124,13 @@ const IsabelleMaker = () => {
       <input value={fontSize} onChange={updateFontSize}/>
       <MinusPlusButton onClick={() => {
         setFontSize(Math.max(4, fontSize - 4));
+        setLoadFlip(!loadFlip);
+        draw();
       }}/>
       <PlusButton onClick={() => {
         setFontSize(fontSize + 4);
+        setLoadFlip(!loadFlip);
+        draw();
       }}/>
     </TextareaContainer>
   </MainContainer>;
