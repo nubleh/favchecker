@@ -7,11 +7,40 @@ import { MinusPlusButton, PlusButton } from '../FieldMaker';
 
 const width = 1280;
 const height = 720;
-
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 const IsabelleMaker = () => {
   const [imagePath, setImagePath] = useState(images[3]);
   const cvRef = useRef(null as null | HTMLCanvasElement);
-  const [text, setText] = useState("Right now on #garden-science,\nit's 7:14 AM on Tuesday,\nApril 21st, 2020.");
+  const today = new Date();
+  const hour = today.getHours();
+  const minute = today.getMinutes();
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  const day = days[today.getDay()];
+  const month = months[today.getMonth()];
+  const date = today.getDate();
+  const dateSuffix = (date === 1 || date === 21 || date === 31)
+    ? 'st'
+    : (date === 2 || date === 22)
+      ? 'nd'
+      : (date === 3 || date === 23)
+        ? 'rd'
+        : 'th';
+  const year = today.getFullYear();
+  const [text, setText] = useState(`Right now on #garden-science,\nit's ${hour > 12 ? hour - 12 : hour}:${(`00${minute}`).slice(-2)} ${ampm} on ${day},\n${month} ${date}${dateSuffix}, ${year}.`);
   const imgRef = useRef(null as null | HTMLImageElement);
   const [fontSize, setFontSize] = useState(36);
 
@@ -44,7 +73,6 @@ const IsabelleMaker = () => {
     ctx.font = `${fontSize}px ACNHFont`;
     ctx.fillStyle = '#6d6652';
     const textLines = text.split(/\n/);
-    console.log(textLines);
     textLines.forEach((line, index) => {
       ctx.fillText(line, xStart + 5, yStart + fontSize + ((fontSize + margin) * index));
     });
