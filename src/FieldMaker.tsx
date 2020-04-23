@@ -218,7 +218,7 @@ interface FlowerIconProps {
   flower: Flower
 }
 
-const FlowerIcon = (props: FlowerIconProps) => {
+export const FlowerIcon = (props: FlowerIconProps) => {
   const path = getFlowerPath(props.flower);
   return <div>
     <FlowerImg src={path}/>
@@ -231,7 +231,7 @@ const getFlowerPath = (flower: Flower) => {
   return set[color] || Object.values(set)[0];
 };
 
-const resolveFlowerColor = (flower: Flower) => {
+export const resolveFlowerColor = (flower: Flower) => {
   const geneSet = Genes[flower.species];
   const gene =  flower.species === FlowerNames.rose ? flower.genes : flower.genes.slice(-8);
   return geneSet[gene];
