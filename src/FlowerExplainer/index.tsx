@@ -4,7 +4,7 @@ import FlowerSequencer, { GeneAllele, GenePair } from './FlowerSequencer';
 import styled, { css } from 'styled-components';
 import { resolveFlowerColor } from '../FieldMaker';
 
-const speciesNames = {
+export const speciesNames = {
   [FlowerNames.rose]: 'rose',
   [FlowerNames.hyacinth]: 'hyacinth',
   [FlowerNames.tulip]: 'tulip',
