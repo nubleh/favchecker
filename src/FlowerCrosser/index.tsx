@@ -4,13 +4,25 @@ import { speciesNames } from '../FlowerExplainer';
 import styled, { keyframes, css } from 'styled-components';
 import { FlowerIcon } from '../FieldMaker';
 
-const console = window.console;
+const dur = 0.5;
+const spinI = 4;
+const spinDur = 0.1;
 const colorA = '#99f';
 const colorB = '#f99';
 const random01 = () => {
   return Math.random() > 0.5 ? 0 : 1;;
 }
 const parentOptions = [
+  [
+    {
+      genes: '01 01 01 00',
+      name: '01 01 01 00 red',
+    },
+    {
+      genes: '01 01 01 00',
+      name: '01 01 01 00 red',
+    },
+  ],
   [
     {
       genes: '11 00 00 01',
@@ -45,16 +57,7 @@ const parentOptions = [
 const FlowerCrosser = () => {
   const [species, setSpecies] = useState(FlowerNames.rose);
 
-  const [parents, setParents] = useState([
-    {
-      genes: '11 00 00 01',
-      name: 'Seed Red',
-    },
-    {
-      genes: '11 00 00 01',
-      name: 'Seed Red',
-    },
-  ]);
+  const [parents, setParents] = useState(parentOptions[0]);
   const geneA = parents[0].genes;
   const geneB = parents[1].genes;
 
@@ -90,7 +93,6 @@ const FlowerCrosser = () => {
     }
   };
 
-  const dur = 1;
   return <MainContainer>
     <h1>
       {speciesNames[species]}
@@ -221,7 +223,7 @@ const FlowerCrosser = () => {
                           transform ${dur}s cubic-bezier(0.5, 0, 0.75, 0),
                           opacity 1s
                         `;
-                        el.style.transitionDelay = `${2 + i * dur}s`;
+                        el.style.transitionDelay = `${spinI * spinDur + i * dur}s`;
                         el.style.transform = '';
                         el.style.opacity = '';
                       }, 20);
@@ -235,7 +237,7 @@ const FlowerCrosser = () => {
           })}
         </GeneContainer>
         <IconContainerBottom style={{
-          animationDelay: `${3 + 4 * dur}s`,
+          animationDelay: `${(spinI * spinDur) + 4 * dur}s`,
         }}>
           <FlowerIcon
             flower={{
@@ -308,7 +310,7 @@ const fadein = keyframes`
 `;
 const IconContainerBottom = styled(IconContainer)`
   margin: 20px auto 0;
-  animation: ${fadein} 1s 1;
+  animation: ${fadein} 0.3s 1;
   opacity: 0;
   animation-fill-mode: forwards;
 `;
@@ -397,12 +399,12 @@ const ChoiceArrow = styled.div<ChoiceArrowProps>`
     transform: translateX(-10px);
 
     ${({ pos }) => pos === 1 && css`
-      animation: ${flip} 0.1s 5 alternate linear;
+      animation: ${flip} ${spinDur}s 5 alternate linear;
       transform: translateX(10px);
     `}
 
     ${({ index }) => css`
-      animation-iteration-count: ${3 + index * 4}
+      animation-iteration-count: ${3 + index * spinI}
     `}
   }
 `;
