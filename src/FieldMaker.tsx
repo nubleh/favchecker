@@ -457,7 +457,7 @@ const FieldEl = styled.div<FieldElProps>`
   }
 
   ${({ isViewPerspective }) => isViewPerspective && css`
-    transform: rotateX(60deg);
+    transform: rotateX(55deg) rotateZ(55deg);
     ${Cell} {
       border: solid 0.5px rgba(0, 0, 0, 0.2);
       > div {
