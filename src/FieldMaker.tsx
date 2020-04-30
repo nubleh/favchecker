@@ -182,8 +182,8 @@ const FieldMaker = () => {
         }}
       />
       <img
-        alt={'Clear field'}
-        title={'Clear field'}
+        alt={'Elevation: Hover and press Q and W'}
+        title={'Elevation: Hover and press Q and W'}
         style={{
           width: 48,
           background: viewPerspective ? 'rgba(255, 255, 255, 0.5)' : '',
