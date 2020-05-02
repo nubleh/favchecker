@@ -476,6 +476,7 @@ const FieldEl = styled.div<FieldElProps>`
 const Row = styled.div`
   display: block;
   height: ${cellSize}px;
+  transform-style: preserve-3d;
 `;
 
 export const MinusPlusButton = styled.div`
