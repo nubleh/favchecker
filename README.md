@@ -8,6 +8,11 @@ click on stuff
 
 take screenshots, whatever
 
+## sprites
+
+cliff sprites came from:  
+https://www.deviantart.com/magiscarf/art/Bunch-o-free-tiles-393827416
+
 
 ## Available Scripts
 
