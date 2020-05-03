@@ -11,6 +11,19 @@ import TrashIcon from './img/ProfileReplaceIcon^t.png';
 import RoadTexture from './img/RoadTexC^_A.png';
 import GrassTexture from './img/AnimalPatternColor^_D.png';
 import CliffIcon from './img/RoadCreationIconCriff^w.png';
+import CliffFloorWall from './img/IconCatFloorWall^s.png';
+import CliffSpriteTop from './img/cliff_top.png';
+import CliffSpriteLeft from './img/cliff_left.png';
+import CliffSpriteRight from './img/cliff_right.png';
+import CliffSpriteBottom from './img/cliff_bottom.png';
+import CliffSpriteTopRight from './img/cliff_topright.png';
+import CliffSpriteTopLeft from './img/cliff_topleft.png';
+import CliffSpriteBottomRight from './img/cliff_bottomright.png';
+import CliffSpriteBottomLeft from './img/cliff_bottomleft.png';
+import CliffSpriteInsetTopRight from './img/cliff_inset_topright.png';
+import CliffSpriteInsetTopLeft from './img/cliff_inset_topleft.png';
+import CliffSpriteInsetBottomRight from './img/cliff_inset_bottomright.png';
+import CliffSpriteInsetBottomLeft from './img/cliff_inset_bottomleft.png';
 
 interface Field {
   [key: number]: {
@@ -38,6 +51,7 @@ interface Flower {
 }
 
 const cellSize = 50;
+const bevelWidth = 0;
 
 const FieldMaker = () => {
   const [fieldWidth, setFieldWidth] = useState(10);
@@ -49,6 +63,8 @@ const FieldMaker = () => {
   const [field, setField] = useState({} as Field);
   const [blockField, setBlockField] = useState({} as BlockField);
   const [viewPerspective, setViewPerspective] = useState(false);
+  const [viewBevel, setViewBevel] = useState(true);
+  const thisBevelWidth = viewBevel ? bevelWidth : 0;
   const rows = [];
 
   const [hoverCol, setHoverCol] = useState(0);
@@ -165,6 +181,7 @@ const FieldMaker = () => {
         onClick={() => {
           setField({});
           setBlockField({});
+          setElevation({});
         }}
       />
       <MinusPlusButton
@@ -191,6 +208,18 @@ const FieldMaker = () => {
         src={CliffIcon}
         onClick={() => {
           setViewPerspective(!viewPerspective);
+        }}
+      />
+      <img
+        alt={'Show elevation with flat 2D sprite'}
+        title={'Show elevation with flat 2D sprite'}
+        style={{
+          width: 48,
+          background: viewBevel ? 'rgba(255, 255, 255, 0.5)' : '',
+        }}
+        src={CliffFloorWall}
+        onClick={() => {
+          setViewBevel(!viewBevel);
         }}
       />
     </Tools>
@@ -236,15 +265,59 @@ const FieldMaker = () => {
     </Tools>
     <FieldEl
       style={{
-        width: `${cellSize * fieldWidth}px`,
+        width: `${(cellSize + thisBevelWidth) * fieldWidth}px`,
       }}
       isViewPerspective={viewPerspective}
+      isViewBevel={viewBevel}
     >
       {rows.map((row, rowIndex) => {
-        return <Row key={rowIndex}>
+        return <Row key={rowIndex} isBevelled={viewBevel}>
           {row.map((_, colIndex) => {
             const content = field[rowIndex]?.[colIndex];
             const blockerType = blockField[rowIndex]?.[colIndex];
+            const cellElevation = elevation[rowIndex]?.[colIndex] || 0;
+            const bevels = viewBevel ? [
+              cellElevation > (elevation[rowIndex - 1]?.[colIndex] || 0),
+              cellElevation > (elevation[rowIndex]?.[colIndex + 1] || 0),
+              cellElevation > (elevation[rowIndex + 1]?.[colIndex] || 0),
+              cellElevation > (elevation[rowIndex]?.[colIndex - 1] || 0),
+              (
+                cellElevation > (elevation[rowIndex]?.[colIndex - 1] || 0)
+                && cellElevation > (elevation[rowIndex - 1]?.[colIndex - 1] || 0)
+                && cellElevation > (elevation[rowIndex - 1]?.[colIndex] || 0)
+              ),
+              (
+                cellElevation > (elevation[rowIndex]?.[colIndex + 1] || 0)
+                && cellElevation > (elevation[rowIndex - 1]?.[colIndex + 1] || 0)
+                && cellElevation > (elevation[rowIndex - 1]?.[colIndex] || 0)
+              ),
+              (
+                cellElevation > (elevation[rowIndex]?.[colIndex - 1] || 0)
+                && cellElevation > (elevation[rowIndex + 1]?.[colIndex - 1] || 0)
+                && cellElevation > (elevation[rowIndex + 1]?.[colIndex] || 0)
+              ),
+              (
+                cellElevation > (elevation[rowIndex]?.[colIndex + 1] || 0)
+                && cellElevation > (elevation[rowIndex + 1]?.[colIndex + 1] || 0)
+                && cellElevation > (elevation[rowIndex + 1]?.[colIndex] || 0)
+              ),
+              (
+                cellElevation > (elevation[rowIndex - 1]?.[colIndex] || 0)
+                && cellElevation === (elevation[rowIndex - 1]?.[colIndex + 1] || 0)
+              ),
+              (
+                cellElevation > (elevation[rowIndex - 1]?.[colIndex] || 0)
+                && cellElevation === (elevation[rowIndex - 1]?.[colIndex - 1] || 0)
+              ),
+              (
+                cellElevation > (elevation[rowIndex]?.[colIndex + 1] || 0)
+                && cellElevation === (elevation[rowIndex - 1]?.[colIndex + 1] || 0)
+              ),
+              (
+                cellElevation > (elevation[rowIndex]?.[colIndex - 1] || 0)
+                && cellElevation === (elevation[rowIndex - 1]?.[colIndex - 1] || 0)
+              ),
+            ] : [];
             return <Cell
               key={colIndex}
               onClick={onClickCell(rowIndex, colIndex)}
@@ -252,11 +325,23 @@ const FieldMaker = () => {
                 setHoverCol(colIndex);
                 setHoverRow(rowIndex);
               }}
-              style={{
-                transform: `translateZ(${25 * (elevation[rowIndex]?.[colIndex] || 0)}px)`
+              style={viewBevel ? {
+                zIndex: cellElevation + 1,
+              } : {
+                transform: `translateZ(${25 * (cellElevation)}px)`,
               }}
-              elevation={elevation[rowIndex]?.[colIndex] || 0}
+              elevation={cellElevation}
+              isBevelled={viewBevel}
             >
+              {bevels.map((b, i) => {
+                if (!b) {
+                  return null;
+                }
+                return <Bevel
+                  key={i}
+                  index={i}
+                />;
+              })}
               {!blockerType && content && <FlowerIcon
                 flower={content}
               />}
@@ -395,34 +480,43 @@ const bounceIn = keyframes`
 
 interface CellProps {
   elevation: number;
+  isBevelled?: boolean;
 }
 const Cell = styled.div<CellProps>`
   display: inline-block;
   width: ${cellSize}px;
   height: ${cellSize}px;
   background: 
-    linear-gradient(to left, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)),
-    url('${GrassTexture}');
+    ${({ isBevelled }) => !isBevelled && `
+      linear-gradient(to left, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)),
+      url('${GrassTexture}')
+    `};
   vertical-align: top;
   cursor: pointer;
   transition: transform 0.1s, background-size 0.1s;
   background-position: center center;
   background-repeat: no-repeat;
   box-sizing: border-box;
+  border: solid 0.5px rgba(0, 0, 0, 0);
+  position: relative;
 
-  ${({ elevation }) => css`
+  ${({ elevation, isBevelled }) => css`
     ${elevation === 1 && css`
       background: 
-      linear-gradient(to left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
-      url('${GrassTexture}');
+        linear-gradient(to left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1))
+        ${!isBevelled && `, url('${GrassTexture}')`};
     `}
     ${elevation === 2 && css`
       background: 
-      linear-gradient(to left, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
-      url('${GrassTexture}');
+        linear-gradient(to left, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25))
+        ${!isBevelled && `, url('${GrassTexture}')`};
     `}
   `}
   background-size: 100% 100%;
+
+  ${({ isBevelled }) => isBevelled && css`
+    margin: ${bevelWidth / 2}px;
+  `}
 
   &:hover {
   }
@@ -440,12 +534,17 @@ const Cell = styled.div<CellProps>`
 
 interface FieldElProps {
   isViewPerspective: boolean;
+  isViewBevel: boolean;
 }
 const FieldEl = styled.div<FieldElProps>`
   margin: 0 auto;
   border-radius: 8px;
   user-select: none;
-  background: url('${GrassTexture}');
+  background:
+    ${({ isViewBevel }) => isViewBevel && `
+      linear-gradient(to left, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)),
+    `}
+    url('${GrassTexture}');
   background-size: ${cellSize}px ${cellSize}px;
   transition: transform 2s;
   transform-style: preserve-3d;
@@ -456,6 +555,9 @@ const FieldEl = styled.div<FieldElProps>`
     }
   }
 
+  ${({ isViewBevel }) => isViewBevel && css`
+    padding: ${bevelWidth / 2}px;
+  `}
   ${({ isViewPerspective }) => isViewPerspective && css`
     transform: rotateX(55deg) rotateZ(55deg);
     ${Cell} {
@@ -473,10 +575,17 @@ const FieldEl = styled.div<FieldElProps>`
   `}
 `;
 
-const Row = styled.div`
+interface RowProps {
+  isBevelled?: boolean;
+}
+const Row = styled.div<RowProps>`
   display: block;
   height: ${cellSize}px;
-  transform-style: preserve-3d;
+  ${({ isBevelled }) => isBevelled ? css`
+    height: ${cellSize + bevelWidth}px;
+  ` : css`
+    transform-style: preserve-3d;
+  `}
 `;
 
 export const MinusPlusButton = styled.div`
@@ -508,6 +617,124 @@ export const MinusPlusButton = styled.div`
     content: '';
     transform: translateX(-50%) translateY(-50%);
   }
+`;
+
+interface BevelProps {
+  index: number;
+}
+const bevelSize = 10;
+const Bevel = styled.div<BevelProps>`
+  position: absolute;
+  pointer-events: none;
+
+  ${({ index }) => index % 2 === 0 ? css`
+    width: ${cellSize}px;
+    height: ${bevelSize}px;
+  ` : css`
+    width: ${bevelSize}px;
+    height: ${cellSize}px;
+  `}
+
+  ${({ index }) => index === 0 && css`
+    bottom: 100%;
+    background-image: url('${CliffSpriteTop}');
+    background-size: auto 100%;
+  `}
+  ${({ index }) => index === 1 && css`
+    left: 100%;
+    background-image: url('${CliffSpriteRight}');
+    background-size: 100% auto;
+    margin-left: ${-bevelSize/2}px;
+  `}
+  ${({ index }) => index === 2 && css`
+    top: 100%;
+    background-image: url('${CliffSpriteBottom}');
+    background-size: auto 100%;
+    height: ${bevelSize * 2}px;
+    margin-top: ${-bevelSize/2}px;
+  `}
+  ${({ index }) => index === 3 && css`
+    right: 100%;
+    background-image: url('${CliffSpriteLeft}');
+    background-size: 100% auto;
+    margin-right: ${-bevelSize/2}px;
+  `}
+  ${({ index }) => index === 4 && css`
+    right: 100%;
+    bottom: 100%;
+    background-image: url('${CliffSpriteTopLeft}');
+    background-size: 100% auto;
+    width: ${bevelSize}px;
+    height: ${bevelSize}px;
+    margin-right: ${-bevelSize/2}px;
+  `}
+  ${({ index }) => index === 5 && css`
+    left: 100%;
+    bottom: 100%;
+    background-image: url('${CliffSpriteTopRight}');
+    background-size: 100% auto;
+    width: ${bevelSize}px;
+    height: ${bevelSize}px;
+    margin-left: ${-bevelSize/2}px;
+  `}
+  ${({ index }) => index === 6 && css`
+    right: 100%;
+    top: 100%;
+    background-image: url('${CliffSpriteBottomLeft}');
+    background-size: 100% auto;
+    width: ${bevelSize}px;
+    height: ${2 * bevelSize}px;
+    margin-top: ${-bevelSize/2}px;
+    margin-right: ${-bevelSize/2}px;
+  `}
+  ${({ index }) => index === 7 && css`
+    left: 100%;
+    top: 100%;
+    background-image: url('${CliffSpriteBottomRight}');
+    background-size: 100% auto;
+    width: ${bevelSize}px;
+    height: ${2 * bevelSize}px;
+    margin-left: ${-bevelSize/2}px;
+    margin-top: ${-bevelSize/2}px;
+  `}
+  ${({ index }) => index === 8 && css`
+    right: 0;
+    bottom: 100%;
+    background-image: url('${CliffSpriteInsetTopRight}');
+    background-size: 100% auto;
+    width: ${bevelSize}px;
+    height: ${bevelSize}px;
+    margin-right: ${-bevelSize/2}px;
+  `}
+  ${({ index }) => index === 9 && css`
+    left: 0;
+    bottom: 100%;
+    background-image: url('${CliffSpriteInsetTopLeft}');
+    background-size: 100% auto;
+    width: ${bevelSize}px;
+    height: ${bevelSize}px;
+    margin-left: ${-bevelSize/2}px;
+  `}
+  ${({ index }) => index === 10 && css`
+    left: 100%;
+    top: 0;
+    background-image: url('${CliffSpriteInsetBottomLeft}');
+    background-size: 100% auto;
+    width: ${bevelSize}px;
+    height: ${2 * bevelSize}px;
+    margin-left: ${-bevelSize/2}px;
+    margin-top: ${-bevelSize/2 - 1}px;
+  `}
+  ${({ index }) => index === 11 && css`
+    right: 100%;
+    top: 0;
+    background-image: url('${CliffSpriteInsetBottomRight}');
+    background-size: 100% auto;
+    width: ${bevelSize}px;
+    height: ${2 * bevelSize}px;
+    margin-right: ${-bevelSize/2}px;
+    margin-top: ${-bevelSize/2 - 1}px;
+  `}
 `;
 
 export const PlusButton = styled(MinusPlusButton)`
