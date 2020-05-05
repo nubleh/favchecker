@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/flowerplanner/precache-manifest.cefc88f0bbbab28c8c95e13535c4c613.js"
+  "/flowerplanner/precache-manifest.e34a0675437407f4b526e0cf19f2fe26.js"
 );
 
 self.addEventListener('message', (event) => {
