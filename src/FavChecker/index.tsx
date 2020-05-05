@@ -58,7 +58,10 @@ const FavChecker = () => {
   const itemNames = Object.keys(itemsData) as ItemName[];
   const filteredVillagerNames = villagerNames.filter((name) => {
     return ownVillagers.indexOf(name) !== -1
-      || name.toLowerCase().indexOf(villagerNameQuery.toLowerCase()) !== -1;
+      || (
+        villagerNameQuery !== ''
+        && name.toLowerCase().indexOf(villagerNameQuery.toLowerCase()) !== -1
+      );
   }).sort((vA, vB) => {
     const vAi = ownVillagers.indexOf(vA);
     const vBi = ownVillagers.indexOf(vB);
@@ -71,7 +74,7 @@ const FavChecker = () => {
     if (vBi === -1) {
       return -1;
     }
-    return 0;
+    return vA > vB ? 1 : -1;
   });
 
   const filteredItemNames = itemNames.filter((name) => {
@@ -115,12 +118,12 @@ const FavChecker = () => {
       />
       {filteredItemNames.length < 100 && <div>
         {filteredItemNames.map(iName => {
-          return <div
+          return <ItemSearcherResult
             key={iName}
             onClick={setItemQueryTo(iName)}
           >
             {iName}
-          </div>;
+          </ItemSearcherResult>;
         })}
       </div>}
       {filteredItemNames.length >= 100 && <div>
@@ -209,6 +212,7 @@ const VillagerRow = styled.div<VillagerRowProps>`
   border-radius: 2px;
   cursor: pointer;
   transition: transform 0.2s;
+  display: inline-block;
 
   &:hover {
     background: rgba(255, 255, 255, 0.01);
@@ -246,11 +250,21 @@ const ItemSearcher = styled.div`
   position: fixed;
   top: 10px;
   right: 10px;
-  background: rgba(255, 255, 255, 0.3);
+  background: #999;
+  color: #222;
   padding: 8px 16px;
   border-radius: 8px;
   max-height: 95vh;
   overflow: auto;
+`;
+const ItemSearcherResult = styled.div`
+  padding: 2px 4px;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 export default FavChecker;
