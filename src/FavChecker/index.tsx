@@ -103,13 +103,13 @@ const FavChecker = () => {
   };
 
   return <MainContainer>
-    <div>
+    <VillagerSearcher>
       <input
         value={villagerNameQuery}
         onChange={onChangeVillagerName}
         placeholder={'Type villager name here'}
       />
-    </div>
+    </VillagerSearcher>
     <ItemSearcher>
       <input
         value={itemNameQuery}
@@ -171,8 +171,19 @@ const FavChecker = () => {
         </VillagerRow>;
       })}
     </div>
+    <Credits>
+      based on data datamined by discord user jhenebean#8648
+    </Credits>
   </MainContainer>;
 };
+
+const Credits = styled.div`
+  position: fixed;
+  bottom: 4px;
+  left: 4px;
+  font-size: 10px;
+  font-family: monospace;
+`;
 
 const MainContainer = styled.div`
   padding: 20px;
@@ -246,6 +257,11 @@ const VariantNo = styled(VariantCircle)`
   background: #f66;
 `;
 
+const VillagerSearcher = styled.div`
+  margin-top: 40px;
+  margin-bottom: 8px;
+`;
+
 const ItemSearcher = styled.div`
   position: fixed;
   top: 10px;
@@ -256,6 +272,7 @@ const ItemSearcher = styled.div`
   border-radius: 8px;
   max-height: 95vh;
   overflow: auto;
+  opacity: 0.9;
 `;
 const ItemSearcherResult = styled.div`
   padding: 2px 4px;
