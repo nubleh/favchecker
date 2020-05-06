@@ -141,7 +141,7 @@ const FavChecker = () => {
           isOwnedVillager={isOwnedVillager}
         >
           <div>
-            {vName}
+            {vName} is {vData.pers}
             <VillagerLikes>
               likes {vData.likes.join(', ')}
             </VillagerLikes>
