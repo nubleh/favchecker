@@ -37,7 +37,7 @@ try {
 
 const FavChecker = () => {
   const [villagerNameQuery, setVillagerNameQuery] = useState('');
-  const [itemNameQuery, setItemNameQuery] = useState('e skirt');
+  const [itemNameQuery, setItemNameQuery] = useState('');
   const [ownVillagers, setOwnVillagers] = useState(ownVillagersCache);
 
   useEffect(() => {
