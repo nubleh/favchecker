@@ -155,9 +155,18 @@ const FavChecker = () => {
           {(isOwnedVillager || shortListed) && filteredItemNames.length <= 10 && <div>
             {filteredItemNames.map(iName => {
               const itemData = itemsData[iName];
+              const commonAttribute = Object.values(itemData.attributes).reduce((c, n) => {
+                if (!c || c.length === 0) {
+                  return n;
+                }
+                if (!n) {
+                  return c;
+                }
+                return c.filter(val => n.indexOf(val) !== -1);
+              }, []);
               return <ItemUnit key={iName}>
                 <div>
-                  {iName}
+                  {iName} {commonAttribute && `(${commonAttribute.join(', ')})`}
                 </div>
                 <div>
                   {Object.entries(itemData.attributes).map(([attrKey, attrs]) => {
