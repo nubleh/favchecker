@@ -37,7 +37,7 @@ try {
 
 const FavChecker = () => {
   const [villagerNameQuery, setVillagerNameQuery] = useState('');
-  const [itemNameQuery, setItemNameQuery] = useState('');
+  const [itemNameQuery, setItemNameQuery] = useState('e skirt');
   const [ownVillagers, setOwnVillagers] = useState(ownVillagersCache);
 
   useEffect(() => {
@@ -99,6 +99,7 @@ const FavChecker = () => {
       } else {
         setOwnVillagers(ownVillagers.filter(v => v !== vName));
       }
+      setVillagerNameQuery('');
     };
   };
 
@@ -111,12 +112,7 @@ const FavChecker = () => {
       />
     </VillagerSearcher>
     <ItemSearcher>
-      <input
-        value={itemNameQuery}
-        onChange={onChangeItemName}
-        placeholder={'Type item name here'}
-      />
-      {filteredItemNames.length < 100 && <div>
+      {itemNameQuery !== '' && filteredItemNames.length < 100 && <ItemSearcherResultContainer>
         {filteredItemNames.map(iName => {
           return <ItemSearcherResult
             key={iName}
@@ -125,60 +121,77 @@ const FavChecker = () => {
             {iName}
           </ItemSearcherResult>;
         })}
-      </div>}
-      {filteredItemNames.length >= 100 && <div>
+      </ItemSearcherResultContainer>}
+      {itemNameQuery !== '' && filteredItemNames.length >= 100 && <ItemSearcherResultContainer>
         {filteredItemNames.length} results, keep typing
-      </div>}
+      </ItemSearcherResultContainer>}
+      <input
+        value={itemNameQuery}
+        onChange={onChangeItemName}
+        placeholder={'Type item name here'}
+      />
     </ItemSearcher>
-    <div>
+    <VillagerContainer>
       {filteredVillagerNames.map(vName => {
         const vData = villagersData[vName];
         const isOwnedVillager = ownVillagers.indexOf(vName) !== -1;
         const shortListed = filteredVillagerNames.length <= 20;
         return <VillagerRow
           key={vName}
-          onClick={addVillagerToOwn(vName)}
           isOwnedVillager={isOwnedVillager}
         >
-          <div>
-            {vName} is {vData.pers}
+          <VillagerProfile>
+            <VillagerCheckbox
+              onClick={addVillagerToOwn(vName)}
+              isOwnedVillager={isOwnedVillager}
+            />
+            <VillagerName>
+              {vName} is {vData.pers}
+            </VillagerName>
             <VillagerLikes>
               likes {vData.likes.join(', ')}
             </VillagerLikes>
-          </div>
+          </VillagerProfile>
           {(isOwnedVillager || shortListed) && filteredItemNames.length <= 10 && <div>
             {filteredItemNames.map(iName => {
               const itemData = itemsData[iName];
               return <ItemUnit key={iName}>
-                {iName}
-                {Object.entries(itemData.attributes).map(([attrKey, attrs]) => {
-                  if (!attrs) {
-                    return null;
-                  }
-                  const isFav = attrs.reduce((c, n) => {
-                    return c || vData.likes.indexOf(n) !== -1;
-                  }, false);
-                  return <ItemVariant key={attrKey}>
-                    {isFav ? <VariantYes/> : <VariantNo/>}
-                    <span>
-                      {attrKey}
-                    </span>
-                  </ItemVariant>;
-                })}
+                <div>
+                  {iName}
+                </div>
+                <div>
+                  {Object.entries(itemData.attributes).map(([attrKey, attrs]) => {
+                    if (!attrs) {
+                      return null;
+                    }
+                    const isFav = attrs.reduce((c, n) => {
+                      return c || vData.likes.indexOf(n) !== -1;
+                    }, false);
+                    return <ItemVariant key={attrKey}>
+                      {isFav ? <VariantYes/> : <VariantNo/>}
+                      <span>
+                        {attrKey}
+                      </span>
+                    </ItemVariant>;
+                  })}
+                </div>
               </ItemUnit>;
             })}
           </div>}
         </VillagerRow>;
       })}
-    </div>
+    </VillagerContainer>
     <Credits>
       based on datamined data compiled by discord user jhenebean#8648
     </Credits>
   </MainContainer>;
 };
 
+const VillagerContainer = styled.div`
+  min-height: 90vh;
+`;
+
 const Credits = styled.div`
-  position: fixed;
   bottom: 4px;
   left: 4px;
   font-size: 10px;
@@ -186,12 +199,15 @@ const Credits = styled.div`
 `;
 
 const MainContainer = styled.div`
-  padding: 20px;
+  padding: 46px 8px;
   input {
     border: none;
     border-radius: 4px;
     background: #fff;
     padding: 4px 8px;
+    line-height: 2em;
+    width: 100%;
+    box-sizing: border-box;
 
     &:focus {
       outline: none;
@@ -200,46 +216,98 @@ const MainContainer = styled.div`
 `;
 
 const ItemUnit = styled.div`
-  margin: 0 8px 12px;;
+  font-size: 12px;
+  padding: 4px 8px;
+  &:nth-child(2n - 1) {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  &:nth-child(2n - 2) {
+    background: rgba(255, 255, 255, 0.1);
+  }
 `;
 const ItemVariant = styled.div`
   margin-left: 10px;
+  display: inline-block;
   > span {
     vertical-align: middle;
   }
 `;
 
+const VillagerProfile = styled.div`
+  position: sticky;
+  top: 38px;
+  background: #292929;
+  padding: 10px;
+  border-radius: 4px 4px 0 0;
+`;
+
+interface VillagerCheckboxProps {
+  isOwnedVillager: boolean;
+}
+const VillagerCheckbox = styled.div<VillagerCheckboxProps>`
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  border-radius: 20px;
+  box-sizing: border-box;
+  border: solid 2px #fff;
+  margin-right: 8px;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    display: block;
+    border-radius: 20px;
+    background: #fff;
+    transition: transform 0.2s;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%) scale(0);
+  }
+
+  ${({ isOwnedVillager }) => isOwnedVillager && css`
+    &::before {
+      transform: translateX(-50%) translateY(-50%);
+    }
+  `}
+`;
+const VillagerName = styled.div`
+  display: inline-block;
+  vertical-align: middle;
+`;
 const VillagerLikes = styled.div`
-  margin-left: 10px;
+  margin: 4px 32px;
+  font-size: 10px;
 `;
 
 interface VillagerRowProps {
   isOwnedVillager: boolean;
 }
 const VillagerRow = styled.div<VillagerRowProps>`
-  white-space: nowrap;
-  margin: 4px;
-  padding: 10px;
+  margin: 4px 4px 12px;
   border-radius: 2px;
   cursor: pointer;
   transition: transform 0.2s;
-  display: inline-block;
+  border-radius: 4px;
+  background: #292929;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.01);
+    background: rgba(255, 255, 255, 0.15);
   }
 
   ${({ isOwnedVillager }) => isOwnedVillager && css`
-    background: rgba(255, 255, 255, 0.1);
     &:hover {
-      background: rgba(255, 255, 255, 0.15);
     }
   `}
-
-  > div {
-    display: inline-block;
-    vertical-align: top;
-  }
 `;
 
 const VariantCircle = styled.div`
@@ -248,7 +316,7 @@ const VariantCircle = styled.div`
   border-radius: 10px;
   display: inline-block;
   vertical-align: middle;
-  margin: 0 8px;
+  margin: 0 4px;
 `;
 const VariantYes = styled(VariantCircle)`
   background: #6f6;
@@ -258,30 +326,49 @@ const VariantNo = styled(VariantCircle)`
 `;
 
 const VillagerSearcher = styled.div`
-  margin-top: 40px;
-  margin-bottom: 8px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #999;
+  box-sizing: border-box;
+  color: #222;
+  padding: 4px;
+  overflow: auto;
+  z-index: 1;
 `;
 
 const ItemSearcher = styled.div`
   position: fixed;
-  top: 10px;
-  right: 10px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   background: #999;
+  box-sizing: border-box;
   color: #222;
-  padding: 8px 16px;
-  border-radius: 8px;
-  max-height: 95vh;
+  padding: 4px;
   overflow: auto;
-  opacity: 0.9;
+  z-index: 1;
 `;
 const ItemSearcherResult = styled.div`
   padding: 2px 4px;
   font-size: 12px;
   cursor: pointer;
+  display: inline-block;
+  background: #fff;
+  border-radius: 2px;
+  margin-right: 4px;
 
   &:hover {
     opacity: 0.7;
   }
+`;
+
+const ItemSearcherResultContainer = styled.div`
+  white-space: nowrap;
+  width: 100%;
+  overflow: auto;
+  padding-bottom: 8px;
 `;
 
 export default FavChecker;
