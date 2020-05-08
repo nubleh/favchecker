@@ -172,7 +172,7 @@ const FavChecker = () => {
       })}
     </div>
     <Credits>
-      based on data datamined by discord user jhenebean#8648
+      based on datamined data compiled by discord user jhenebean#8648
     </Credits>
   </MainContainer>;
 };
