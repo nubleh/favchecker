@@ -9,11 +9,7 @@ import FavChecker from './FavChecker';
 function App() {
   const hash = window.location.hash;
   return <>
-    {hash === '' && <FieldMaker/>}
-    {hash === '#isabelle' && <IsabelleMaker/>}
-    {hash === '#explain' && <FlowerExplainer/>}
-    {hash === '#crosser' && <FlowerCrosser/>}
-    {hash === '#favchecker' && <FavChecker/>}
+    <FavChecker/>
   </>;
 }
 export default App;
