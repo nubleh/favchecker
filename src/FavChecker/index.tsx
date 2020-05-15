@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 import styled, { css } from 'styled-components';
 
-import { langs, personalities } from '../i18n/languages';
+import { langs } from '../i18n/languages';
+import { personalities, clothesVariants } from './data/enums';
 import villagersData from './data/villagers.json';
-import itemsData from './data/items.json';
+import itemsData from './data/itemsClothes.json';
 import i18nVillagerNames from '../i18n/villagerNames.json';
+import i18nItemNames from '../i18n/itemNames.json';
 import words from '../i18n/words.json';
 
 type VillagerName = keyof typeof villagersData;
@@ -96,14 +98,15 @@ const FavChecker = () => {
   });
 
   const filteredItemNames = itemNames.filter((name) => {
+    const i18nName = i18nItemNames[name][lang];
     return itemNameQuery !== ''
       && clothingTypes.indexOf(itemsData[name].type) !== -1
-      && name.toLowerCase().indexOf(itemNameQuery.toLowerCase()) !== -1;
+      && i18nName.toLowerCase().indexOf(itemNameQuery.toLowerCase()) !== -1;
   }).sort();
 
-  const setItemQueryTo = (iName: ItemName) => {
+  const setItemQueryTo = (i18nItemName: string) => {
     return () => {
-      setItemNameQuery(iName);
+      setItemNameQuery(i18nItemName);
     };
   };
 
@@ -126,7 +129,7 @@ const FavChecker = () => {
       <input
         value={villagerNameQuery}
         onChange={onChangeVillagerName}
-        placeholder={'Type villager name here'}
+        placeholder={words['Type villager name here'][lang]}
       />
       <LangButton tabIndex={0}>
         <span>{lang}</span>
@@ -152,9 +155,9 @@ const FavChecker = () => {
         {filteredItemNames.map(iName => {
           return <ItemSearcherResult
             key={iName}
-            onClick={setItemQueryTo(iName)}
+            onClick={setItemQueryTo(i18nItemNames[iName as ItemName][lang])}
           >
-            {iName}
+            {i18nItemNames[iName as ItemName][lang]}
           </ItemSearcherResult>;
         })}
       </ItemSearcherResultContainer>}
@@ -164,7 +167,7 @@ const FavChecker = () => {
       <input
         value={itemNameQuery}
         onChange={onChangeItemName}
-        placeholder={'Type item name here'}
+        placeholder={words['Type item name here'][lang]}
       />
     </ItemSearcher>
     <VillagerContainer>
@@ -185,7 +188,7 @@ const FavChecker = () => {
               {i18nVillagerNames[vName][lang]} {words['is'][lang]} {words[vData.pers as personalities][lang]}
             </VillagerName>
             <VillagerLikes>
-              {words['likes'][lang]} {vData.likes.join(', ')}
+              {words['likes'][lang]} {vData.likes.map(w => words[w as clothesVariants][lang]).join(', ')}
             </VillagerLikes>
           </VillagerProfile>
           {(isOwnedVillager || shortListed) && filteredItemNames.length <= 10 && <div>
@@ -202,7 +205,7 @@ const FavChecker = () => {
               }, []);
               return <ItemUnit key={iName}>
                 <div>
-                  {iName} {commonAttribute && `(${commonAttribute.join(', ')})`}
+                  {i18nItemNames[iName as ItemName][lang]} {commonAttribute && `(${commonAttribute.map(w => words[w as clothesVariants][lang]).join(', ')})`}
                 </div>
                 <div>
                   {Object.entries(itemData.attributes).map(([attrKey, attrs]) => {
@@ -215,7 +218,7 @@ const FavChecker = () => {
                     return <ItemVariant key={attrKey}>
                       {isFav ? <VariantYes/> : <VariantNo/>}
                       <span>
-                        {attrKey}
+                        {words[attrKey as clothesVariants][lang]}
                       </span>
                     </ItemVariant>;
                   })}

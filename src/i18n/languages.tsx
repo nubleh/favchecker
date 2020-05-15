@@ -15,15 +15,4 @@ enum langs {
   ru = 'ru',
 }
 
-enum personalities {
-  lazy = "lazy",
-  normal = "normal",
-  peppy = "peppy",
-  jock = "jock",
-  cranky = "cranky",
-  snooty = "snooty",
-  sisterly = "sisterly",
-  smug = "smug",
-}
-
-export { langs, personalities };
+export { langs };
