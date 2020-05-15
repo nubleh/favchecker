@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 import styled, { css } from 'styled-components';
 
+import { langs, personalities } from '../i18n/languages';
 import villagersData from './data/villagers.json';
 import itemsData from './data/items.json';
-import languages from '../i18n/languages';
+import i18nVillagerNames from '../i18n/villagerNames.json';
+import words from '../i18n/words.json';
 
 type VillagerName = keyof typeof villagersData;
 type ItemName = keyof typeof itemsData;
@@ -30,7 +32,7 @@ const clothingTypes = [
   // 'misc',
   // 'housewares',
 ];
-
+const languages = Object.values(langs);
 let ownVillagersCache: VillagerName[] = [];
 const ownVillagersCacheKey = 'ownVillagersCache';
 try {
@@ -40,7 +42,7 @@ try {
 const langCacheKey = 'lang';
 let langCache = languages[0];
 try {
-  langCache = localStorage.getItem(langCacheKey) || languages[0];
+  langCache = (localStorage.getItem(langCacheKey) || languages[0]) as langs;
 } catch (_) {}
 if (languages.indexOf(langCache) === -1) {
   langCache = languages[0];
@@ -72,10 +74,11 @@ const FavChecker = () => {
   const villagerNames = Object.keys(villagersData) as VillagerName[];
   const itemNames = Object.keys(itemsData) as ItemName[];
   const filteredVillagerNames = villagerNames.filter((name) => {
+    const i18nName = i18nVillagerNames[name][lang];
     return ownVillagers.indexOf(name) !== -1
       || (
         villagerNameQuery !== ''
-        && name.toLowerCase().indexOf(villagerNameQuery.toLowerCase()) !== -1
+        && i18nName.toLowerCase().indexOf(villagerNameQuery.toLowerCase()) !== -1
       );
   }).sort((vA, vB) => {
     const vAi = ownVillagers.indexOf(vA);
@@ -179,10 +182,10 @@ const FavChecker = () => {
               isOwnedVillager={isOwnedVillager}
             />
             <VillagerName>
-              {vName} is {vData.pers}
+              {i18nVillagerNames[vName][lang]} {words['is'][lang]} {words[vData.pers as personalities][lang]}
             </VillagerName>
             <VillagerLikes>
-              likes {vData.likes.join(', ')}
+              {words['likes'][lang]} {vData.likes.join(', ')}
             </VillagerLikes>
           </VillagerProfile>
           {(isOwnedVillager || shortListed) && filteredItemNames.length <= 10 && <div>
