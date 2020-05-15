@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
+import styled, { css } from 'styled-components';
+
 import villagersData from './data/villagers.json';
 import itemsData from './data/items.json';
-import styled, { css } from 'styled-components';
+import languages from '../i18n/languages';
 
 type VillagerName = keyof typeof villagersData;
 type ItemName = keyof typeof itemsData;
@@ -35,7 +37,17 @@ try {
   ownVillagersCache = JSON.parse(localStorage.getItem(ownVillagersCacheKey) || '[]');
 } catch (_) {}
 
+const langCacheKey = 'lang';
+let langCache = languages[0];
+try {
+  langCache = localStorage.getItem(langCacheKey) || languages[0];
+} catch (_) {}
+if (languages.indexOf(langCache) === -1) {
+  langCache = languages[0];
+}
+
 const FavChecker = () => {
+  const [lang, setLang] = useState(langCache);
   const [villagerNameQuery, setVillagerNameQuery] = useState('');
   const [itemNameQuery, setItemNameQuery] = useState('');
   const [ownVillagers, setOwnVillagers] = useState(ownVillagersCache);
@@ -43,6 +55,9 @@ const FavChecker = () => {
   useEffect(() => {
     localStorage.setItem(ownVillagersCacheKey, JSON.stringify(ownVillagers));
   }, [ownVillagers]);
+  useEffect(() => {
+    localStorage.setItem(langCacheKey, lang);
+  }, [lang]);
   const onChangeVillagerName = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget) {
       setVillagerNameQuery(e.currentTarget.value);
@@ -110,6 +125,24 @@ const FavChecker = () => {
         onChange={onChangeVillagerName}
         placeholder={'Type villager name here'}
       />
+      <LangButton tabIndex={0}>
+        <span>{lang}</span>
+        <LangOptions>
+          {languages.map(langOption => {
+            return <div
+              key={langOption}
+              onClick={() => {
+                setLang(langOption);
+              }}
+              style={lang === langOption ? {
+                background: 'rgba(0, 0, 0, 0.1)',
+              } : {}}
+            >
+              {langOption}
+            </div>;
+          })}
+        </LangOptions>
+      </LangButton>
     </VillagerSearcher>
     <ItemSearcher>
       {itemNameQuery !== '' && filteredItemNames.length < 100 && <ItemSearcherResultContainer>
@@ -195,6 +228,68 @@ const FavChecker = () => {
     </Credits>
   </MainContainer>;
 };
+
+const LangOptions = styled.div`
+  background: red;
+  position: absolute;
+  right: 2px;
+  top: 95%;
+  overflow: auto;
+  max-height: 80vh;
+  max-width: 90vw;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #222;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  display: none;
+  text-align: left;
+
+  > div {
+    padding: 8px 16px;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+`;
+
+const LangButton = styled.div`
+  font-size: 10px;
+  padding: 0 8px;
+  user-select: none;
+  text-transform: uppercase;
+  margin-left: 4px;
+  background: #000;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  text-align: center;
+  flex: 1 1 auto;
+
+  > span {
+    vertical-align: middle;
+  }
+
+  &::before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    background: red;
+    vertical-align: middle;
+  }
+
+  &:hover, &:focus {
+    background: #333;
+    outline: none;
+
+    ${LangOptions} {
+      display: block;
+    }
+  }
+`;
 
 const VillagerContainer = styled.div`
   min-height: 90vh;
@@ -343,8 +438,12 @@ const VillagerSearcher = styled.div`
   box-sizing: border-box;
   color: #222;
   padding: 4px;
-  overflow: auto;
   z-index: 1;
+  display: flex;
+
+  input {
+    flex: 1 1 auto;
+  }
 `;
 
 const ItemSearcher = styled.div`
