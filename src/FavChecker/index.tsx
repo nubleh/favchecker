@@ -44,7 +44,10 @@ try {
 const langCacheKey = 'lang';
 let langCache = languages[0];
 try {
-  langCache = (localStorage.getItem(langCacheKey) || languages[0]) as langs;
+  langCache = (localStorage.getItem(langCacheKey)) as langs;
+  if (!langCache) {
+    langCache = navigator.language.substr(0, 2) as langs;
+  }
 } catch (_) {}
 if (languages.indexOf(langCache) === -1) {
   langCache = languages[0];
@@ -56,6 +59,13 @@ const FavChecker = () => {
   const [itemNameQuery, setItemNameQuery] = useState('');
   const [ownVillagers, setOwnVillagers] = useState(ownVillagersCache);
 
+  useEffect(() => {
+    if (lang === 'ja') {
+      document.title = 'あつ森 Fav Checker';
+    } else {
+      document.title = 'ACNH Fav Checker';
+    }
+  }, [lang]);
   useEffect(() => {
     localStorage.setItem(ownVillagersCacheKey, JSON.stringify(ownVillagers));
   }, [ownVillagers]);
