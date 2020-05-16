@@ -408,11 +408,29 @@ const VillagerCheckbox = styled.div<VillagerCheckboxProps>`
   cursor: pointer;
   position: relative;
   box-sizing: border-box;
-  background-image: linear-gradient(135deg, #fff 40%, #bbb 40%, #bbb 50%, #777 50%, #777 60%, #333 60%);
+  background-image: linear-gradient(
+    135deg,
+    #fff 18%,
+    #bbb 18%,
+    #bbb 23%,
+    #777 23%,
+    #777 28%,
+    #333 28%,
+    #333 68%,
+    #777 68%,
+    #777 73%,
+    #bbb 73%,
+    #bbb 78%,
+    #fff 78%
+  );
+  background-size: ${iconDiameter * 3}px;
+  transition: background-position 0.2s;
+  background-position: 0 0;
 
   &:hover {
     opacity: 0.9;
     border: solid 2px #fff;
+    background-position: -80px 0;
   }
 
   ${({ isOwnedVillager }) => isOwnedVillager && css`
