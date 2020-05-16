@@ -44,7 +44,7 @@
     "zh": "黑",
     "zh (Traditional)": "黑",
     "ja": "黒",
-    "ko": "black",
+    "ko": "검은",
     "ru": "black"
   },
   "colorful": {
@@ -60,7 +60,7 @@
     "zh": "彩色",
     "zh (Traditional)": "彩色",
     "ja": "多色",
-    "ko": "colorful",
+    "ko": "색채가 풍부한",
     "ru": "colorful"
   },
   "active": {
@@ -76,7 +76,7 @@
     "zh": "运动服",
     "zh (Traditional)": "運動服",
     "ja": "アクティブ",
-    "ko": "active",
+    "ko": "활동적인",
     "ru": "active"
   },
   "light blue": {
@@ -92,7 +92,7 @@
     "zh": "浅蓝色",
     "zh (Traditional)": "淺藍色",
     "ja": "水色",
-    "ko": "light blue",
+    "ko": "하늘색",
     "ru": "light blue"
   },
   "simple": {
@@ -108,7 +108,7 @@
     "zh": "休闲",
     "zh (Traditional)": "休閒",
     "ja": "シンプル",
-    "ko": "simple",
+    "ko": "단순한",
     "ru": "simple"
   },
   "red": {
@@ -124,7 +124,7 @@
     "zh": "红色",
     "zh (Traditional)": "紅色",
     "ja": "赤",
-    "ko": "red",
+    "ko": "빨간",
     "ru": "red"
   },
   "purple": {
@@ -140,7 +140,7 @@
     "zh": "紫色",
     "zh (Traditional)": "紫色",
     "ja": "紫",
-    "ko": "purple",
+    "ko": "보라색",
     "ru": "purple"
   },
   "green": {
@@ -156,7 +156,7 @@
     "zh": "绿色",
     "zh (Traditional)": "綠色",
     "ja": "みどり",
-    "ko": "green",
+    "ko": "초록",
     "ru": "green"
   },
   "yellow": {
@@ -172,7 +172,7 @@
     "zh": "黄色",
     "zh (Traditional)": "黃色",
     "ja": "黄色",
-    "ko": "yellow",
+    "ko": "노랑",
     "ru": "yellow"
   },
   "pink": {
@@ -188,7 +188,7 @@
     "zh": "粉色",
     "zh (Traditional)": "粉色",
     "ja": "ピンク",
-    "ko": "pink",
+    "ko": "분홍",
     "ru": "pink"
   },
   "brown": {
@@ -204,7 +204,7 @@
     "zh": "褐色",
     "zh (Traditional)": "褐色",
     "ja": "ブラウン",
-    "ko": "brown",
+    "ko": "갈색",
     "ru": "brown"
   },
   "gray": {
@@ -220,7 +220,7 @@
     "zh": "灰色",
     "zh (Traditional)": "灰色",
     "ja": "グレー",
-    "ko": "gray",
+    "ko": "회색",
     "ru": "gray"
   },
   "cool": {
@@ -236,7 +236,7 @@
     "zh": "酷",
     "zh (Traditional)": "酷",
     "ja": "クール",
-    "ko": "cool",
+    "ko": "멋진",
     "ru": "cool"
   },
   "cute": {
@@ -252,7 +252,7 @@
     "zh": "可爱",
     "zh (Traditional)": "可愛",
     "ja": "かわいい",
-    "ko": "cute",
+    "ko": "귀엽다",
     "ru": "cute"
   },
   "beige": {
@@ -268,7 +268,7 @@
     "zh": "皮肤色",
     "zh (Traditional)": "皮膚色",
     "ja": "ベージュ",
-    "ko": "beige",
+    "ko": "베이지",
     "ru": "beige"
   },
   "white": {
@@ -284,7 +284,7 @@
     "zh": "白色",
     "zh (Traditional)": "白色",
     "ja": "白",
-    "ko": "white",
+    "ko": "하얀",
     "ru": "white"
   },
   "orange": {
@@ -300,7 +300,7 @@
     "zh": "橙色",
     "zh (Traditional)": "橙色",
     "ja": "オレンジ",
-    "ko": "orange",
+    "ko": "주황색",
     "ru": "orange"
   },
   "elegant": {
@@ -316,7 +316,7 @@
     "zh": "高雅",
     "zh (Traditional)": "高雅",
     "ja": "エレガント",
-    "ko": "elegant",
+    "ko": "우아한",
     "ru": "elegant"
   },
   "blue": {
@@ -332,7 +332,7 @@
     "zh": "蓝色",
     "zh (Traditional)": "藍色",
     "ja": "青",
-    "ko": "blue",
+    "ko": "푸른",
     "ru": "blue"
   },
   "gorgeous": {
@@ -348,7 +348,7 @@
     "zh": "华丽",
     "zh (Traditional)": "華麗",
     "ja": "ゴージャス",
-    "ko": "gorgeous",
+    "ko": "화려한",
     "ru": "gorgeous"
   },
   "lazy": {
@@ -364,7 +364,7 @@
     "zh": "悠闲",
     "zh (Traditional)": "悠閒",
     "ja": "ぼんやり",
-    "ko": "lazy",
+    "ko": "먹보",
     "ru": "lazy"
   },
   "normal": {
@@ -380,7 +380,7 @@
     "zh": "普通",
     "zh (Traditional)": "普通",
     "ja": "普通",
-    "ko": "normal",
+    "ko": "친절함",
     "ru": "normal"
   },
   "peppy": {
@@ -396,7 +396,7 @@
     "zh": "元气",
     "zh (Traditional)": "元氣",
     "ja": "元気",
-    "ko": "peppy",
+    "ko": "아이돌",
     "ru": "peppy"
   },
   "jock": {
@@ -412,7 +412,7 @@
     "zh": "运动",
     "zh (Traditional)": "運動",
     "ja": "ハキハキ",
-    "ko": "jock",
+    "ko": "운동광",
     "ru": "jock"
   },
   "cranky": {
@@ -428,7 +428,7 @@
     "zh": "暴躁",
     "zh (Traditional)": "暴躁",
     "ja": "コワイ",
-    "ko": "cranky",
+    "ko": "무뚝뚝",
     "ru": "cranky"
   },
   "snooty": {
@@ -444,7 +444,7 @@
     "zh": "成熟",
     "zh (Traditional)": "成熟",
     "ja": "オトナ",
-    "ko": "snooty",
+    "ko": "성숙함",
     "ru": "snooty"
   },
   "sisterly": {
@@ -460,7 +460,7 @@
     "zh": "大姐姐",
     "zh (Traditional)": "大姐姐",
     "ja": "アネキ",
-    "ko": "sisterly",
+    "ko": "단순활발",
     "ru": "sisterly"
   },
   "smug": {
@@ -476,7 +476,7 @@
     "zh": "自恋",
     "zh (Traditional)": "自戀",
     "ja": "キザ",
-    "ko": "smug",
+    "ko": "느끼함",
     "ru": "smug"
   },
   "likes": {
