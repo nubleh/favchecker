@@ -406,7 +406,7 @@ const VillagerName = styled.div`
 `;
 const VillagerLikes = styled.div`
   margin: 4px 32px;
-  font-size: 10px;
+  font-size: 14px;
 `;
 
 interface VillagerRowProps {
