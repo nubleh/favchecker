@@ -131,6 +131,9 @@ const FavChecker = () => {
         ]);
       } else {
         setOwnVillagers(ownVillagers.filter(v => v !== vName));
+        if (villagerNameQuery === vName) {
+          setVillagerNameQuery('');
+        }
         if (villagerNameQuery === '') {
           const i18nVillagerName = i18nVillagerNames[vName as VillagerName][lang];
           setVillagerNameQuery(i18nVillagerName);
