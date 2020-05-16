@@ -129,8 +129,9 @@ const FavChecker = () => {
         ]);
       } else {
         setOwnVillagers(ownVillagers.filter(v => v !== vName));
+        const i18nVillagerName = i18nVillagerNames[vName as VillagerName][lang];
+        setVillagerNameQuery(i18nVillagerName);
       }
-      // setVillagerNameQuery('');
     };
   };
 
