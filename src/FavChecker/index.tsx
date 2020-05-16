@@ -58,6 +58,18 @@ const FavChecker = () => {
   const [villagerNameQuery, setVillagerNameQuery] = useState('');
   const [itemNameQuery, setItemNameQuery] = useState('');
   const [ownVillagers, setOwnVillagers] = useState(ownVillagersCache);
+  const [_, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const updateWindowWidth = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', updateWindowWidth);
+    return () => {
+      window.removeEventListener('resize', updateWindowWidth);
+    };
+  }, []);
 
   const elPos = useRef({} as { [key: string]: ClientRect });
 
@@ -129,11 +141,11 @@ const FavChecker = () => {
           ...ownVillagers,
           vName,
         ]);
-      } else {
-        setOwnVillagers(ownVillagers.filter(v => v !== vName));
         if (villagerNameQuery === vName) {
           setVillagerNameQuery('');
         }
+      } else {
+        setOwnVillagers(ownVillagers.filter(v => v !== vName));
         if (villagerNameQuery === '') {
           const i18nVillagerName = i18nVillagerNames[vName as VillagerName][lang];
           setVillagerNameQuery(i18nVillagerName);
