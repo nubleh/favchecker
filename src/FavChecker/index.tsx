@@ -141,7 +141,8 @@ const FavChecker = () => {
           ...ownVillagers,
           vName,
         ]);
-        if (villagerNameQuery === vName) {
+        const i18nVillagerName = i18nVillagerNames[vName as VillagerName][lang];
+        if (villagerNameQuery === i18nVillagerName) {
           setVillagerNameQuery('');
         }
       } else {
