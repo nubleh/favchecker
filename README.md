@@ -2,17 +2,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## How to use
 
-go to https://nubleh.github.io/flowerplanner/
+go to https://nubleh.github.io/favchecker/
 
-click on stuff
+type in name of villagers
 
-take screenshots, whatever
+click on their icons to pin them to the top (saved in localstorage)
 
-## sprites
-
-cliff sprites came from:  
-https://www.deviantart.com/magiscarf/art/Bunch-o-free-tiles-393827416
-
+type name of clothing items you want to check
 
 ## Available Scripts
 
