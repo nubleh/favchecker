@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import styled, { css } from 'styled-components';
 
@@ -58,6 +58,8 @@ const FavChecker = () => {
   const [villagerNameQuery, setVillagerNameQuery] = useState('');
   const [itemNameQuery, setItemNameQuery] = useState('');
   const [ownVillagers, setOwnVillagers] = useState(ownVillagersCache);
+
+  const elPos = useRef({} as { [key: string]: ClientRect });
 
   useEffect(() => {
     if (lang === 'ja') {
@@ -129,8 +131,10 @@ const FavChecker = () => {
         ]);
       } else {
         setOwnVillagers(ownVillagers.filter(v => v !== vName));
-        const i18nVillagerName = i18nVillagerNames[vName as VillagerName][lang];
-        setVillagerNameQuery(i18nVillagerName);
+        if (villagerNameQuery === '') {
+          const i18nVillagerName = i18nVillagerNames[vName as VillagerName][lang];
+          setVillagerNameQuery(i18nVillagerName);
+        }
       }
     };
   };
@@ -190,6 +194,30 @@ const FavChecker = () => {
         return <VillagerRow
           key={vName}
           isOwnedVillager={isOwnedVillager}
+          ref={(el: HTMLDivElement) => {
+            if (!el) {
+              return;
+            }
+            const rect = el.getClientRects()[0];
+            if (!rect) {
+              return;
+            }
+            const oldRect = elPos.current[vName];
+            if (oldRect) {
+              const diffX = oldRect.left - rect.left;
+              const diffY = oldRect.top - rect.top;
+              el.style.transition = 'none';
+              el.style.transform = `
+                translateX(${diffX}px)
+                translateY(${diffY}px)
+              `;
+              setTimeout(() => {
+                el.style.transition = '';
+                el.style.transform = '';
+              }, 10);
+            }
+            elPos.current[vName] = rect;
+          }}
         >
           <VillagerProfile>
             <VillagerCheckbox
@@ -415,7 +443,7 @@ interface VillagerRowProps {
 }
 const VillagerRow = styled.div<VillagerRowProps>`
   margin: 4px 4px 12px;
-  transition: transform 0.2s;
+  transition: transform 0.5s;
   border-radius: 4px;
   background: #292929;
   border: solid 2px #aaa;
