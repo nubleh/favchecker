@@ -130,7 +130,7 @@ const FavChecker = () => {
       } else {
         setOwnVillagers(ownVillagers.filter(v => v !== vName));
       }
-      setVillagerNameQuery('');
+      // setVillagerNameQuery('');
     };
   };
 
@@ -185,6 +185,7 @@ const FavChecker = () => {
         const vData = villagersData[vName];
         const isOwnedVillager = ownVillagers.indexOf(vName) !== -1;
         const shortListed = filteredVillagerNames.length <= 20;
+        const i18name = i18nVillagerNames[vName][lang];
         return <VillagerRow
           key={vName}
           isOwnedVillager={isOwnedVillager}
@@ -193,9 +194,11 @@ const FavChecker = () => {
             <VillagerCheckbox
               onClick={addVillagerToOwn(vName)}
               isOwnedVillager={isOwnedVillager}
-            />
+            ><div style={{
+              backgroundImage: `url(${process.env.PUBLIC_URL}/img/villagers/${vData.id}.png)`,
+            }}/></VillagerCheckbox>
             <VillagerName>
-              {i18nVillagerNames[vName][lang]} {words['is'][lang]} {words[vData.pers as personalities][lang]}
+              {i18name} {words['is'][lang]} {words[vData.pers as personalities][lang]}
             </VillagerName>
             <VillagerLikes>
               {words['likes'][lang]} {vData.likes.map(w => words[w as clothesVariants][lang]).join(', ')}
@@ -361,44 +364,41 @@ const VillagerProfile = styled.div`
   border-radius: 4px 4px 0 0;
 `;
 
+const iconDiameter = 40;
 interface VillagerCheckboxProps {
   isOwnedVillager: boolean;
 }
 const VillagerCheckbox = styled.div<VillagerCheckboxProps>`
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: ${iconDiameter}px;
+  height: ${iconDiameter}px;
   vertical-align: middle;
-  border-radius: 20px;
+  border-radius: ${iconDiameter}px;
   box-sizing: border-box;
-  border: solid 2px #fff;
   margin-right: 8px;
   cursor: pointer;
   position: relative;
+  box-sizing: border-box;
+  background-image: linear-gradient(135deg, #fff 40%, #bbb 40%, #bbb 50%, #777 50%, #777 60%, #333 60%);
 
   &:hover {
     opacity: 0.9;
-  }
-
-  &::before {
-    content: '';
-    width: 20px;
-    height: 20px;
-    display: block;
-    border-radius: 20px;
-    background: #fff;
-    transition: transform 0.2s;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%) scale(0);
+    border: solid 2px #fff;
   }
 
   ${({ isOwnedVillager }) => isOwnedVillager && css`
-    &::before {
-      transform: translateX(-50%) translateY(-50%);
-    }
+    border: solid 2px #fff;
   `}
+
+  > div {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    background-size: 80% 80%;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
 `;
 const VillagerName = styled.div`
   display: inline-block;
@@ -414,20 +414,24 @@ interface VillagerRowProps {
 }
 const VillagerRow = styled.div<VillagerRowProps>`
   margin: 4px 4px 12px;
-  border-radius: 2px;
-  cursor: pointer;
   transition: transform 0.2s;
   border-radius: 4px;
   background: #292929;
+  border: solid 2px #aaa;
+  border-width: 12px 2px;
+  display: inline-block;
 
   &:hover {
     background: rgba(255, 255, 255, 0.15);
   }
 
   ${({ isOwnedVillager }) => isOwnedVillager && css`
-    &:hover {
-    }
+    border-color: #fff;
   `}
+
+  @media (max-width: 768px) {
+    display: block;
+  }
 `;
 
 const VariantCircle = styled.div`
