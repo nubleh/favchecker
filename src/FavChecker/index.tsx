@@ -60,6 +60,8 @@ const FavChecker = () => {
   const [ownVillagers, setOwnVillagers] = useState(ownVillagersCache);
   const [_, setWindowWidth] = useState(window.innerWidth);
 
+  const elPos = useRef({} as { [key: string]: { rect: ClientRect, scroll: number } });
+
   useEffect(() => {
     const updateWindowWidth = () => {
       setWindowWidth(window.innerWidth);
@@ -70,8 +72,6 @@ const FavChecker = () => {
       window.removeEventListener('resize', updateWindowWidth);
     };
   }, []);
-
-  const elPos = useRef({} as { [key: string]: ClientRect });
 
   useEffect(() => {
     if (lang === 'ja') {
@@ -213,14 +213,18 @@ const FavChecker = () => {
             if (!el) {
               return;
             }
+            el.style.transition = 'none';
+            el.style.transform = '';
             const rect = el.getClientRects()[0];
             if (!rect) {
               return;
             }
-            const oldRect = elPos.current[vName];
-            if (oldRect) {
+            const oldData = elPos.current[vName];
+            if (oldData) {
+              const oldRect = oldData.rect;
               const diffX = oldRect.left - rect.left;
-              const diffY = oldRect.top - rect.top;
+              const diffScroll = window.scrollY - oldData.scroll;
+              const diffY = oldRect.top - rect.top - diffScroll;
               el.style.transition = 'none';
               el.style.transform = `
                 translateX(${diffX}px)
@@ -231,7 +235,10 @@ const FavChecker = () => {
                 el.style.transform = '';
               }, 10);
             }
-            elPos.current[vName] = rect;
+            elPos.current[vName] = {
+              rect,
+              scroll: window.scrollY,
+            };
           }}
         >
           <VillagerProfile>
@@ -476,7 +483,7 @@ interface VillagerRowProps {
 }
 const VillagerRow = styled.div<VillagerRowProps>`
   margin: 4px 4px 12px;
-  transition: transform 0.5s;
+  transition: transform 0.6s;
   border-radius: 4px;
   background: #292929;
   border: solid 2px #aaa;
