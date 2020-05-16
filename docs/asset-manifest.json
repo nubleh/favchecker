@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/favchecker/static/css/main.e4190272.chunk.css",
-    "main.js": "/favchecker/static/js/main.6c0c0e8e.chunk.js",
-    "main.js.map": "/favchecker/static/js/main.6c0c0e8e.chunk.js.map",
+    "main.js": "/favchecker/static/js/main.bd14d44e.chunk.js",
+    "main.js.map": "/favchecker/static/js/main.bd14d44e.chunk.js.map",
     "runtime-main.js": "/favchecker/static/js/runtime-main.286e15b2.js",
     "runtime-main.js.map": "/favchecker/static/js/runtime-main.286e15b2.js.map",
     "static/js/2.646f6443.chunk.js": "/favchecker/static/js/2.646f6443.chunk.js",
     "static/js/2.646f6443.chunk.js.map": "/favchecker/static/js/2.646f6443.chunk.js.map",
     "index.html": "/favchecker/index.html",
-    "precache-manifest.c6afa7a3506dc1b9349329a569c0db25.js": "/favchecker/precache-manifest.c6afa7a3506dc1b9349329a569c0db25.js",
+    "precache-manifest.64676296acc40498596ae73dc2e57f24.js": "/favchecker/precache-manifest.64676296acc40498596ae73dc2e57f24.js",
     "service-worker.js": "/favchecker/service-worker.js",
     "static/css/main.e4190272.chunk.css.map": "/favchecker/static/css/main.e4190272.chunk.css.map",
     "static/js/2.646f6443.chunk.js.LICENSE.txt": "/favchecker/static/js/2.646f6443.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.286e15b2.js",
     "static/js/2.646f6443.chunk.js",
     "static/css/main.e4190272.chunk.css",
-    "static/js/main.6c0c0e8e.chunk.js"
+    "static/js/main.bd14d44e.chunk.js"
   ]
 }
