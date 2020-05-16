@@ -34,7 +34,7 @@
   "black": {
     "en": "black",
     "en (Europe)": "black",
-    "de": "black",
+    "de": "schwarz",
     "es": "black",
     "es (US)": "black",
     "fr": "black",
@@ -50,7 +50,7 @@
   "colorful": {
     "en": "colorful",
     "en (Europe)": "colorful",
-    "de": "colorful",
+    "de": "bunt",
     "es": "colorful",
     "es (US)": "colorful",
     "fr": "colorful",
@@ -66,7 +66,7 @@
   "active": {
     "en": "active",
     "en (Europe)": "active",
-    "de": "active",
+    "de": "aktiv",
     "es": "active",
     "es (US)": "active",
     "fr": "active",
@@ -82,7 +82,7 @@
   "light blue": {
     "en": "light blue",
     "en (Europe)": "light blue",
-    "de": "light blue",
+    "de": "hellblau",
     "es": "light blue",
     "es (US)": "light blue",
     "fr": "light blue",
@@ -98,7 +98,7 @@
   "simple": {
     "en": "simple",
     "en (Europe)": "simple",
-    "de": "simple",
+    "de": "einfach",
     "es": "simple",
     "es (US)": "simple",
     "fr": "simple",
@@ -114,7 +114,7 @@
   "red": {
     "en": "red",
     "en (Europe)": "red",
-    "de": "red",
+    "de": "rot",
     "es": "red",
     "es (US)": "red",
     "fr": "red",
@@ -130,7 +130,7 @@
   "purple": {
     "en": "purple",
     "en (Europe)": "purple",
-    "de": "purple",
+    "de": "lila",
     "es": "purple",
     "es (US)": "purple",
     "fr": "purple",
@@ -146,7 +146,7 @@
   "green": {
     "en": "green",
     "en (Europe)": "green",
-    "de": "green",
+    "de": "grün",
     "es": "green",
     "es (US)": "green",
     "fr": "green",
@@ -162,7 +162,7 @@
   "yellow": {
     "en": "yellow",
     "en (Europe)": "yellow",
-    "de": "yellow",
+    "de": "gelb",
     "es": "yellow",
     "es (US)": "yellow",
     "fr": "yellow",
@@ -178,7 +178,7 @@
   "pink": {
     "en": "pink",
     "en (Europe)": "pink",
-    "de": "pink",
+    "de": "rosa",
     "es": "pink",
     "es (US)": "pink",
     "fr": "pink",
@@ -194,7 +194,7 @@
   "brown": {
     "en": "brown",
     "en (Europe)": "brown",
-    "de": "brown",
+    "de": "braun",
     "es": "brown",
     "es (US)": "brown",
     "fr": "brown",
@@ -210,7 +210,7 @@
   "gray": {
     "en": "gray",
     "en (Europe)": "gray",
-    "de": "gray",
+    "de": "grau",
     "es": "gray",
     "es (US)": "gray",
     "fr": "gray",
@@ -226,7 +226,7 @@
   "cool": {
     "en": "cool",
     "en (Europe)": "cool",
-    "de": "cool",
+    "de": "g",
     "es": "cool",
     "es (US)": "cool",
     "fr": "cool",
@@ -242,7 +242,7 @@
   "cute": {
     "en": "cute",
     "en (Europe)": "cute",
-    "de": "cute",
+    "de": "niedlich",
     "es": "cute",
     "es (US)": "cute",
     "fr": "cute",
@@ -274,7 +274,7 @@
   "white": {
     "en": "white",
     "en (Europe)": "white",
-    "de": "white",
+    "de": "weiß",
     "es": "white",
     "es (US)": "white",
     "fr": "white",
@@ -322,7 +322,7 @@
   "blue": {
     "en": "blue",
     "en (Europe)": "blue",
-    "de": "blue",
+    "de": "blau",
     "es": "blue",
     "es (US)": "blue",
     "fr": "blue",
@@ -338,7 +338,7 @@
   "gorgeous": {
     "en": "gorgeous",
     "en (Europe)": "gorgeous",
-    "de": "gorgeous",
+    "de": "herrlich",
     "es": "gorgeous",
     "es (US)": "gorgeous",
     "fr": "gorgeous",
@@ -354,7 +354,7 @@
   "lazy": {
     "en": "lazy",
     "en (Europe)": "lazy",
-    "de": "lazy",
+    "de": "schlafmütze",
     "es": "lazy",
     "es (US)": "lazy",
     "fr": "lazy",
@@ -370,7 +370,7 @@
   "normal": {
     "en": "normal",
     "en (Europe)": "normal",
-    "de": "normal",
+    "de": "ausgeglichen",
     "es": "normal",
     "es (US)": "normal",
     "fr": "normal",
@@ -386,7 +386,7 @@
   "peppy": {
     "en": "peppy",
     "en (Europe)": "peppy",
-    "de": "peppy",
+    "de": "schwungvoll",
     "es": "peppy",
     "es (US)": "peppy",
     "fr": "peppy",
@@ -402,7 +402,7 @@
   "jock": {
     "en": "jock",
     "en (Europe)": "jock",
-    "de": "jock",
+    "de": "sportlich",
     "es": "jock",
     "es (US)": "jock",
     "fr": "jock",
@@ -418,7 +418,7 @@
   "cranky": {
     "en": "cranky",
     "en (Europe)": "cranky",
-    "de": "cranky",
+    "de": "miesepeter",
     "es": "cranky",
     "es (US)": "cranky",
     "fr": "cranky",
@@ -434,7 +434,7 @@
   "snooty": {
     "en": "snooty",
     "en (Europe)": "snooty",
-    "de": "snooty",
+    "de": "eingebildet",
     "es": "snooty",
     "es (US)": "snooty",
     "fr": "snooty",
@@ -450,7 +450,7 @@
   "sisterly": {
     "en": "sisterly",
     "en (Europe)": "sisterly",
-    "de": "sisterly",
+    "de": "erwacshen",
     "es": "sisterly",
     "es (US)": "sisterly",
     "fr": "sisterly",
@@ -466,7 +466,7 @@
   "smug": {
     "en": "smug",
     "en (Europe)": "smug",
-    "de": "smug",
+    "de": "selbstzufriedend",
     "es": "smug",
     "es (US)": "smug",
     "fr": "smug",
@@ -482,7 +482,7 @@
   "likes": {
     "en": "likes",
     "en (Europe)": "likes",
-    "de": "likes",
+    "de": "mag",
     "es": "likes",
     "es (US)": "likes",
     "fr": "likes",
