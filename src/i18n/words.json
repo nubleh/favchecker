@@ -25,8 +25,8 @@
     "fr (US)": "Type villager name here",
     "it": "Type villager name here",
     "nl" : "Type villager name here",
-    "zh": "居民姓名请输入这里",
-    "zh (Traditional)": "居民姓名請輸入這裡",
+    "zh": "请输入居民姓名",
+    "zh (Traditional)": "請輸入居民姓名",
     "ja": "住人を検索しよう",
     "ko": "Type villager name here",
     "ru": "Type villager name here"
@@ -49,7 +49,7 @@
   },
   "colorful": {
     "en": "colorful",
-    "en (Europe)": "colorful",
+    "en (Europe)": "colourful",
     "de": "bunt",
     "es": "colorful",
     "es (US)": "colorful",
@@ -505,8 +505,8 @@
     "fr (US)": "：",
     "it": "：",
     "nl" : "：",
-    "zh": "：",
-    "zh (Traditional)": "：",
+    "zh": "的性格是",
+    "zh (Traditional)": "的性格是",
     "ja": "は",
     "ko": "：",
     "ru": "："
