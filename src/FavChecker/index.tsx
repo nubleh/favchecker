@@ -249,12 +249,14 @@ const FavChecker = () => {
             ><div style={{
               backgroundImage: `url(${process.env.PUBLIC_URL}/img/villagers/${vData.id}.png)`,
             }}/></VillagerCheckbox>
-            <VillagerName>
-              {i18name} {words['is'][lang]} {words[vData.pers as personalities][lang]}
-            </VillagerName>
-            <VillagerLikes>
-              {words['likes'][lang]} {vData.likes.map(w => words[w as clothesVariants][lang]).join(', ')}
-            </VillagerLikes>
+            <VillagerDetails>
+              <VillagerName>
+                <strong>{i18name}</strong> {words['is'][lang]} <strong>{words[vData.pers as personalities][lang]}</strong>
+              </VillagerName>
+              <VillagerLikes>
+                {words['likes'][lang]} {vData.likes.map(w => words[w as clothesVariants][lang]).join(', ')}
+              </VillagerLikes>
+            </VillagerDetails>
           </VillagerProfile>
           {(isOwnedVillager || shortListed) && filteredItemNames.length <= 10 && <div>
             {filteredItemNames.map(iName => {
@@ -270,7 +272,7 @@ const FavChecker = () => {
               }, []);
               return <ItemUnit key={iName}>
                 <div>
-                  {i18nItemNames[iName as ItemName][lang]} {commonAttribute && `(${commonAttribute.map(w => words[w as clothesVariants][lang]).join(', ')})`}
+                  <strong>{i18nItemNames[iName as ItemName][lang]}</strong> {commonAttribute && `(${commonAttribute.map(w => words[w as clothesVariants][lang]).join(', ')})`}
                 </div>
                 <div>
                   {Object.entries(itemData.attributes).map(([attrKey, attrs]) => {
@@ -301,10 +303,10 @@ const FavChecker = () => {
 };
 
 const LangOptions = styled.div`
-  background: red;
   position: absolute;
   right: 2px;
   top: 95%;
+  display: none;
   overflow: auto;
   max-height: 80vh;
   max-width: 90vw;
@@ -312,7 +314,6 @@ const LangOptions = styled.div`
   background: rgba(255, 255, 255, 0.85);
   color: #222;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-  display: none;
   text-align: left;
 
   > div {
@@ -325,20 +326,22 @@ const LangOptions = styled.div`
   }
 `;
 
+
 const LangButton = styled.div`
-  font-size: 10px;
-  padding: 0 8px;
+  font-size: 0.825rem;
+  padding: 0 0.5rem;
   user-select: none;
   text-transform: uppercase;
   margin-left: 4px;
-  background: #000;
   color: #fff;
+  border: solid 2px rgb(155, 155, 155);
   border-radius: 4px;
   cursor: pointer;
   position: relative;
   white-space: nowrap;
   text-align: center;
   flex: 1 1 auto;
+  margin-left: 0.5rem;
 
   > span {
     vertical-align: middle;
@@ -353,7 +356,9 @@ const LangButton = styled.div`
   }
 
   &:hover, &:focus {
-    background: #333;
+    color: #111;
+    border-color: #fff;
+    background: #fff;
     outline: none;
 
     ${LangOptions} {
@@ -390,29 +395,13 @@ const MainContainer = styled.div`
   }
 `;
 
-const ItemUnit = styled.div`
-  font-size: 12px;
-  padding: 4px 8px;
-  &:nth-child(2n - 1) {
-    background: rgba(255, 255, 255, 0.2);
-  }
-  &:nth-child(2n - 2) {
-    background: rgba(255, 255, 255, 0.1);
-  }
-`;
-const ItemVariant = styled.div`
-  margin-left: 10px;
-  display: inline-block;
-  > span {
-    vertical-align: middle;
-  }
-`;
-
 const VillagerProfile = styled.div`
   position: sticky;
-  top: 38px;
-  background: #292929;
-  padding: 10px;
+  top: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px 4px 0 0;
 `;
 
@@ -452,12 +441,12 @@ const VillagerCheckbox = styled.div<VillagerCheckboxProps>`
 
   &:hover {
     opacity: 0.9;
-    border: solid 2px #fff;
+    border: solid 2px #0366d6;
     background-position: -80px 0;
   }
 
   ${({ isOwnedVillager }) => isOwnedVillager && css`
-    border: solid 2px #fff;
+    // change here
   `}
 
   > div {
@@ -470,33 +459,37 @@ const VillagerCheckbox = styled.div<VillagerCheckboxProps>`
     background-repeat: no-repeat;
   }
 `;
-const VillagerName = styled.div`
-  display: inline-block;
-  vertical-align: middle;
+
+const VillagerDetails = styled.h2`
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+  line-height: 1.33;
+  font-weight: normal;
 `;
-const VillagerLikes = styled.div`
-  margin: 4px 32px;
-  font-size: 14px;
+
+const VillagerName = styled.span`
+  display: inline-block;
+`;
+
+const VillagerLikes = styled.span`
+  display: block;
 `;
 
 interface VillagerRowProps {
   isOwnedVillager: boolean;
 }
 const VillagerRow = styled.div<VillagerRowProps>`
-  margin: 4px 4px 12px;
+  margin-top: 0.5rem;
   transition: transform 0.6s;
   border-radius: 4px;
-  background: #292929;
-  border: solid 2px #aaa;
-  border-width: 12px 2px;
+  background-color: rgba(255, 255, 255, 0.1)
   display: inline-block;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.15);
-  }
+  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 1);
 
   ${({ isOwnedVillager }) => isOwnedVillager && css`
-    border-color: #fff;
+    // if villager is active
+    border-bottom: solid 3px #0366d6;
   `}
 
   @media (max-width: 768px) {
@@ -504,32 +497,44 @@ const VillagerRow = styled.div<VillagerRowProps>`
   }
 `;
 
-const VariantCircle = styled.div`
-  width: 10px;
-  height: 10px;
-  border-radius: 10px;
+const ItemUnit = styled.div`
+  padding: 0.625rem 1rem;
+  line-height: 1.5;
+  font-size: 0.8rem;
+  &:not(:first-child) {
+    border-top: solid 1px rgba(255, 255, 255, 0.3);
+  }
+`;
+const ItemVariant = styled.div`
   display: inline-block;
-  vertical-align: middle;
-  margin: 0 4px;
+  &:not(:first-child) {
+    margin-left: 1rem;
+  }
+`;
+
+const VariantCircle = styled.span`
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  border-radius: 100%;
 `;
 const VariantYes = styled(VariantCircle)`
-  background: #6f6;
+  background-color: #28a745;
 `;
 const VariantNo = styled(VariantCircle)`
-  background: #f66;
+  background-color: #d73a49;
 `;
 
 const VillagerSearcher = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  background: #999;
-  box-sizing: border-box;
-  color: #222;
-  padding: 4px;
   z-index: 1;
+  box-sizing: border-box;
   display: flex;
+  width: 100%;
+  padding: 0.5rem;
 
   input {
     flex: 1 1 auto;
@@ -541,24 +546,26 @@ const ItemSearcher = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  background: #999;
   box-sizing: border-box;
-  color: #222;
-  padding: 4px;
   overflow: auto;
   z-index: 1;
+  padding: 0.5rem;
 `;
-const ItemSearcherResult = styled.div`
+
+const ItemSearcherResult = styled.span`
+  display: inline-block;
+  cursor: pointer;
   padding: 2px 4px;
   font-size: 12px;
-  cursor: pointer;
-  display: inline-block;
-  background: #fff;
   border-radius: 2px;
   margin-right: 4px;
+  color: #fff;
+  border: 1px solid rgba(95, 95, 95);
 
   &:hover {
-    opacity: 0.7;
+    color: #111;
+    border-color: rgba(215, 215, 215);
+    background-color: rgba(215, 215, 215);
   }
 `;
 
