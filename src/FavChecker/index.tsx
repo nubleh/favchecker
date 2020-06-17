@@ -296,6 +296,10 @@ const FavChecker = () => {
     </VillagerContainer>
     <Credits>
       based on datamined data compiled by discord user jhenebean#8648
+      <br/>
+      thanks to <a href="https://yuexr.github.io/acnh/friendship.html" target="_blank" rel="noopener">yue</a> who came up with the idea but wasn't smart enough to make it
+      <br/>
+      game data thanks to dataminers from the <a href="https://discord.gg/acnh" target="_blank" rel="noopener">acnh discord</a>
     </Credits>
   </MainContainer>;
 };
@@ -386,6 +390,12 @@ const MainContainer = styled.div`
 
     &:focus {
       outline: none;
+    }
+  }
+
+  a {
+    &, &:visited {
+      color: inherit;
     }
   }
 `;
